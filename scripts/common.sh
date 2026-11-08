@@ -29,6 +29,9 @@ REPS=${REPS:-3}
 # 2x EPYC 7713: 128 cores, 16 CCDs of 8 consecutive cores (check with lscpu, see smoke.sbatch).
 SPREAD=$(seq 0 8 127 | paste -sd, -)  # one rank per CCD: 0,8,...,120
 PACKED=$(seq 0 15 | paste -sd, -)      # 16 ranks on 2 CCDs
+# one rank per CCD, alternating sockets: 0,64,8,72,...  (for P < 16, both sockets
+# get the same number of ranks instead of socket 0 filling first)
+ALT=$(for i in $(seq 0 7); do echo $((8 * i)) $((64 + 8 * i)); done | tr ' ' '\n' | paste -sd, -)
 
 # steps_for N P: about 1e9 cell updates per rank (roughly 1 s), clamped to [20, 1000].
 steps_for() {
