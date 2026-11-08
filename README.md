@@ -223,13 +223,20 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - Packed (8 ranks per CCD): 2.2-4.4x slower at N = 240 and about 3x slower at N = 960, mostly compute (84 vs 25 ms for 4x4x3), because 8 ranks share one L3 and one CCD's memory bandwidth. This is why the baseline is undersubscribed.
 - Even with block placement under `shm`, 1x1x48 is 1.7x slower than 4x4x3 at N = 240, although its extra surface stays inside the node: part of it crosses sockets, where shared memory gives only about 3 GB/s.
 
+**2026-11-08, job 12259405 (D, overlap x transport).** 96 runs, all PASS. Plot: `figs/D_overlap.png`.
+- `blocking` (one Sendrecv per direction, in sequence) is the slowest at N = 240: 1.7-1.9x slower than `nonblocking` under `shm`.
+- N = 960, the clearest case of the progress effect: `overlap` alone barely reduces `wait` (rc 4x4x3: 5.7 -> 7.0 ms; rc 1x1x48: 22.5 -> 19.5 ms), while `overlap_test` cuts it to 0.4 ms and 4.5 ms. Without MPI calls during the interior compute, the rendezvous does not progress.
+- The overlap gain is mostly eaten by the separate boundary pass: `comp_bd` costs 4-5 ms at N = 960 (about 18% of the compute for 4x4x3, for about 2% of the cells). Net gain in `t_step`: none for 4x4x3, 15% for rc 1x1x48 (50.4 -> 42.8 ms).
+- N = 240: under `rc`, 4x4x3 gains a lot (0.84 -> 0.46 ms with `overlap`, 0.33 ms with `overlap_test`, 2.5x). Under `shm` (intra-node eager) the modes are close. 1x1x48 does not gain in any mode, because its communication (about 1 ms) is much longer than the 0.1-0.2 ms of interior compute it could hide behind.
+- Under `shm`, `overlap_test` at N = 960 helps 4x4x3 `wait` (5.1 -> 2.5 ms) but not 1x1x48 (12.9 -> 12.1 ms).
+
 ## 8b. Status and next steps (update as things finish)
 
-- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404). Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`.
-- Queued in order on eng-instruction: D 12259405, E 12259406, then S2 12260302 (`afterany` on E).
+- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405). Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`.
+- Queued in order on eng-instruction: E 12259406, then S2 12260302 (`afterany` on E).
 - S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
 - After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
-- Remaining analysis: alpha-beta (+ node-bandwidth) model on A; D overlap table (`wait` per mode, shm vs rc); E pack cost by face direction.
+- Remaining analysis: alpha-beta (+ node-bandwidth) model on A; E pack cost by face direction.
 - Decisions made: P = 48 on 3 nodes; N = 240/480/960 in A; `shm` = intra-node eager; pingpong, C and D under both `shm` and `rc`; keep mode name `nonblocking` (the no-overlap control).
 
 ## 9. Code and usage
