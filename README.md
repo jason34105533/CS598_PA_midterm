@@ -188,6 +188,17 @@ Intra-node latency of 1.2-1.4 us, with bandwidth that saturates near the 100 Gb/
 
 Within a socket, shared memory is about 3x faster than the HCA. Across sockets, it is about 3x slower. So in `shm` mode the cheap level is the socket, not the node. Inter-node bandwidth between 128 KB and 4 MB was about 2.7 GB/s in most runs and about 10 GB/s in one; 8 MB and above reach about 11 GB/s.
 
+**2026-11-08, jobs 12259393 and 12259396 (smoke and pingpong with the final `shm` setting).** Smoke 98/98. Placement check (N = 240, 4x4x3): 0.52 ms per step, `wait` 0.17 ms, compared with 0.87 / 0.64 ms under `rc`. Pingpong, large-message bandwidth and 8 B latency:
+
+| Level | shm | rc | 8 B latency, shm / rc |
+|---|---|---|---|
+| same CCD | about 25 GB/s | 8-15 GB/s | 0.11 / 1.37 us |
+| same socket, other CCD | about 6 GB/s | about 8 GB/s | 0.33 / 1.37 us |
+| other socket | about 3 GB/s | about 11 GB/s | 0.78 / 1.18 us |
+| other node | about 2.7 GB/s (128 KB-4 MB) | same | 2.75 / 2.75 us |
+
+Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all intra-node levels look alike. Inter-node bandwidth at 128 KB-4 MB was about 2.7 GB/s in most runs, so use that for the model. rc intra-node numbers vary between runs.
+
 **2026-11-08, job 12259398 (S, scaling, `shm`).** 165 runs, all PASS. Plots: `figs/S_*.png` (`python3 analysis/plot_S.py`).
 - Weak scaling, local about 240^3 (does not fit in L3): time per step goes from 9.1 ms at P = 1 to 19.7 ms at P = 8, then stays at about 22 ms up to P = 48. P = 1..8 fills the 8 CCDs of socket 0, so the loss is memory-bandwidth contention within a socket; adding nodes costs almost nothing.
 - Weak scaling, local about 60^3 (fits in L3): 0.14 ms to 0.27 ms, a slow rise from communication.
@@ -199,6 +210,15 @@ Within a socket, shared memory is about 3x faster than the HCA. Across sockets, 
 - Same surface, different orientation: 48x1x1 is 2.0x (N = 240), 1.8x (480) and 1.3x (960) slower than 1x1x48. Its pack + unpack alone is 32 ms per step at N = 960, against 7.6 ms for 1x1x48.
 - Worst vs best: 4.0x (N = 240), 3.4x (480), 2.1x (960). The prediction that shape barely matters at N = 960 was wrong: the slabs are 1.6-2.1x slower even there.
 - At N = 480 the fastest grids do not split z (8x6x1, 4x12x1), even though their halo is larger than that of 4x4x3.
+
+## 8b. Status and next steps (update as things finish)
+
+- Done: smoke, pingpong, S (12259398), A (12259401). Plots: `figs/S_*.png`, `figs/A_shape.png`.
+- Queued in order on eng-instruction: B 12259403, C 12259404, D 12259405, E 12259406, then S2 12260302 (`afterany` on E).
+- S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
+- After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
+- Remaining analysis: alpha-beta (+ node-bandwidth) model on A; D overlap table (`wait` per mode, shm vs rc); E pack cost by face direction; B fewer-ranks case.
+- Decisions made: P = 48 on 3 nodes; N = 240/480/960 in A; `shm` = intra-node eager; pingpong, C and D under both `shm` and `rc`; keep mode name `nonblocking` (the no-overlap control).
 
 ## 9. Code and usage
 
