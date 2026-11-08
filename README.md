@@ -188,6 +188,12 @@ Intra-node latency of 1.2-1.4 us, with bandwidth that saturates near the 100 Gb/
 
 Within a socket, shared memory is about 3x faster than the HCA. Across sockets, it is about 3x slower. So in `shm` mode the cheap level is the socket, not the node. Inter-node bandwidth between 128 KB and 4 MB was about 2.7 GB/s in most runs and about 10 GB/s in one; 8 MB and above reach about 11 GB/s.
 
+**2026-11-08, job 12259398 (S, scaling, `shm`).** 165 runs, all PASS. Plots: `figs/S_*.png` (`python3 analysis/plot_S.py`).
+- Weak scaling, local about 240^3 (does not fit in L3): time per step goes from 9.1 ms at P = 1 to 19.7 ms at P = 8, then stays at about 22 ms up to P = 48. P = 1..8 fills the 8 CCDs of socket 0, so the loss is memory-bandwidth contention within a socket; adding nodes costs almost nothing.
+- Weak scaling, local about 60^3 (fits in L3): 0.14 ms to 0.27 ms, a slow rise from communication.
+- Strong scaling efficiency at P = 48: 0.49 (N = 240), 0.44 (480), 0.53 (960). The curves do not collapse onto one efficiency vs n/P curve; for N = 480 and 960 most of the drop happens at P = 6..8, inside one socket. n/P where efficiency falls below 0.8: about 4.6e6 (N = 240), 3.2e7 (480), 1.5e8 (960).
+- N = 480 at P = 48 (about 37 MB per rank, near the 32 MB L3): efficiency recovers from 0.36 at P = 32 to 0.44.
+
 ## 9. Code and usage
 
 ```
@@ -198,6 +204,8 @@ scripts/smoke.sh      correctness sweep (local, or inside an allocation)
 scripts/*.sbatch      smoke test, pingpong, experiments S, A-E
 scripts/submit_all.sh submit smoke, then everything else once smoke passes
 results/              CSV output (one file per experiment) and Slurm logs
+analysis/             plotting scripts (run from the repo root)
+figs/                 generated plots
 ```
 
 ### Build and run

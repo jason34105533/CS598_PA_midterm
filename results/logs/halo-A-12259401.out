@@ -1,0 +1,78 @@
+job 12259401 on ccc[0391-0393]  (Sun Nov  8 16:25:49 CST 2026)
+OMPI_MCA_btl=^vader,tcp,openib
+OMPI_MCA_btl_tcp_if_include=hsn0
+OMPI_MCA_hwloc_base_binding_policy=core
+OMPI_MCA_plm_slurm_args=--external-launcher
+OMPI_MCA_pml=ucx
+OMPI_MCA_ras_base_verbose=10
+OMPI_MCA_rmaps_base_mapping_policy=numa
+UCX_IB_GID_INDEX=3
+UCX_IB_TRAFFIC_CLASS=104
+UCX_MAX_RNDV_RAILS=1
+UCX_MEMTYPE_CACHE=n
+UCX_NET_DEVICES=mlx5_0:1
+UCX_RCACHE_ENABLE=y
+UCX_RNDV_SCHEME=put_zcopy
+UCX_RNDV_THRESH=intra:inf,inter:8K
+UCX_SOCKADDR_TLS_PRIORITY=rdmacm
+UCX_TLS=sm,self,rc
+halo3d  N=240  grid=1x1x48  P=48  nodes=3  mode=nonblocking  pack=manual  steps=1000
+  time/step 0.655 ms   (avg | max over ranks, ms)
+    pack         0.0289 |    0.0310
+    post         0.1719 |    0.2557
+    wait         0.2413 |    0.3539
+    unpack       0.0307 |    0.0441
+    comp_int     0.1776 |    0.1886
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 921600; total off-node 1843200, same-node 41472000, same-CCD 0
+  local cells min 288000 max 288000   rel_err 5.183e-14  PASS
+halo3d  N=240  grid=1x1x48  P=48  nodes=3  mode=nonblocking  pack=manual  steps=1000
+  time/step 0.688 ms   (avg | max over ranks, ms)
+    pack         0.0289 |    0.0312
+    post         0.1760 |    0.2811
+    wait         0.2721 |    0.3922
+    unpack       0.0308 |    0.0441
+    comp_int     0.1779 |    0.1853
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 921600; total off-node 1843200, same-node 41472000, same-CCD 0
+  local cells min 288000 max 288000   rel_err 5.183e-14  PASS
+halo3d  N=240  grid=1x1x48  P=48  nodes=3  mode=nonblocking  pack=manual  steps=1000
+  time/step 1.012 ms   (avg | max over ranks, ms)
+    pack         0.0313 |    0.0337
+    post         0.2118 |    0.4791
+    wait         0.5520 |    0.7103
+    unpack       0.0323 |    0.0450
+    comp_int     0.1780 |    0.1856
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 921600; total off-node 1843200, same-node 41472000, same-CCD 0
+  local cells min 288000 max 288000   rel_err 5.183e-14  PASS
+halo3d  N=240  grid=1x2x24  P=48  nodes=3  mode=nonblocking  pack=manual  steps=1000
+  time/step 0.473 ms   (avg | max over ranks, ms)
+    pack         0.0155 |    0.0173
+    post         0.0943 |    0.1418
+    wait         0.1683 |    0.2355
+    unpack       0.0159 |    0.0211
+    comp_int     0.1790 |    0.1978
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 480000; total off-node 1843200, same-node 20275200, same-CCD 0
+  local cells min 288000 max 288000   rel_err 5.183e-14  PASS
+halo3d  N=240  grid=1x2x24  P=48  nodes=3  mode=nonblocking  pack=manual  steps=1000
+  time/step 0.482 ms   (avg | max over ranks, ms)
+    pack         0.0155 |    0.0169
+    post         0.0943 |    0.1438
+    wait         0.1765 |    0.2394
+    unpack       0.0158 |    0.0210
+    comp_int     0.1789 |    0.1869
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 480000; total off-node 1843200, same-node 20275200, same-CCD 0
+  local cells min 288000 max 288000   rel_err 5.183e-14  PASS
+halo3d  N=240  grid=1x2x24  P=48  nodes=3  mode=nonblocking  pack=manual  steps=1000
+  time/step 0.449 ms   (avg | max over ranks, ms)
+    pack         0.0154 |    0.0171
+    post         0.0913 |    0.1360
+    wait         0.1476 |    0.2129
+    unpack       0.0156 |    0.0209
+    comp_int     0.1782 |    0.1875
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 480000; total off-node 1843200, same-node 20275200, same-CCD 0
+  local cells min 288000 max 288000   rel_err 5.183e-14  PASS
