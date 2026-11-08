@@ -44,26 +44,26 @@ Halo cells per interior rank, for global `N^3` on a `Px x Py x Pz` grid:
 halo = 2 N^2 * ( [Px>1]/(Py*Pz) + [Py>1]/(Px*Pz) + [Pz>1]/(Px*Py) )
 ```
 
-| Grid (P=64) | Neighbors | Halo per rank (units of N^2) |
+| Grid (P=48) | Neighbors | Halo per rank (units of N^2) |
 |---|---|---|
-| 1x1x64 | 2 | 2.0 |
-| 2x4x8 | 6 | 0.44 |
-| 4x4x4 | 6 | 0.375 |
+| 1x1x48 | 2 | 2.0 |
+| 2x4x6 | 6 | 0.50 |
+| 4x4x3 | 6 | 0.46 |
 
-The slab moves about 5.3x more data (P^(2/3)/3) but sends 3x fewer messages, so it may win when messages are small and latency dominates. Compare against the alpha-beta model `T = m*alpha + bytes*beta`.
+The slab moves about 4.4x more data (roughly P^(2/3)/3) but sends 3x fewer messages, so it may win when messages are small and latency dominates. Compare against the alpha-beta model `T = m*alpha + bytes*beta`.
 
 **Shape also changes memory behavior, not only the surface area.** Data is stored with x as the unit-stride direction, so:
 
 - Splitting along x shortens inner loops, which hurts vectorization and prefetch. It also makes x-faces strided, which makes packing expensive.
 - Splitting only along z (1x1xP) makes z-faces contiguous, so no packing is needed. However, each xy-plane is large, so the 3 planes the stencil needs may not fit in L2.
-- So 1x1x64 and 64x1x1 have the same surface, but performance may differ. Orientation is an experiment in its own right.
+- So 1x1x48 and 48x1x1 have the same surface, but performance may differ. Orientation is an experiment in its own right.
 
-**Hierarchy: where does the extra surface land?** Take 4 nodes with 16 ranks per node, ranks filled into nodes in order, and x varying fastest in rank numbering:
+**Hierarchy: where does the extra surface land?** Take 3 nodes with 16 ranks per node, ranks filled into nodes in order, and x varying fastest in rank numbering:
 
-- 1x1x64: each node owns 16 consecutive slabs, so the off-node faces are two N^2 planes.
-- 4x4x4: each node owns one 4x4x1 layer, so the off-node faces are also two N^2 planes.
+- 1x1x48: each node owns 16 consecutive slabs, so the off-node faces are two N^2 planes.
+- 4x4x3: each node owns one 4x4x1 layer, so the off-node faces are also two N^2 planes.
 
-Inter-node traffic is identical, because the node-level decomposition is 1x1x4 in both cases. The extra surface of the slab is all intra-node (shared memory). With cyclic rank distribution, the same 1x1x64 sends every face off-node, which is the worst case. So decomposition quality has to be judged at each level: node, CCD, and core. The CCD level comes in naturally here.
+Inter-node traffic is identical, because the node-level decomposition is 1x1x3 in both cases. The extra surface of the slab is all intra-node (shared memory). This is why 4x4x3 is the "good" grid in C, D and E rather than 3x4x4 (same surface, but a z-layer of 12 ranks does not line up with a 16-rank node). With cyclic rank distribution, the same 1x1x48 sends every face off-node, which is the worst case. So decomposition quality has to be judged at each level: node, CCD, and core. The CCD level comes in naturally here.
 
 ## 4. Code design
 
@@ -87,7 +87,8 @@ One C + MPI program. Every variant is a command-line option.
 | ID | Experiment | Question |
 |---|---|---|
 | A | Fixed P, sweep all factorizations including orientation (1x1xP vs Px1x1). Two problem sizes: large and small local volume. | How much does shape matter? Does the surface/alpha-beta model predict it? Is there a latency/bandwidth crossover? |
-| B | Prime P vs slightly fewer ranks with a good factorization (for example 61 vs 60 vs 64), fixed global N. | Can using fewer cores be faster? |
+| S | Strong scaling (fixed N, P = 1..48) and weak scaling (local volume about L^3), auto grid. | Parallel efficiency vs n/P; what n/P gives 80% efficiency (n_0.8)? Is the loss compute (cache) or communication? |
+| B | Prime P vs slightly fewer ranks with a good factorization (for example 47 vs 48), fixed global N. | Can using fewer cores be faster? |
 | C | Same grid, different placement: block vs cyclic across nodes; inside a node, one rank per CCD vs packed into few CCDs. | Does it matter where the extra surface lands (node / CCD / core)? |
 | D | blocking vs overlap vs overlap_test, on the best and worst decomposition from A. | How much communication can overlap hide? Does it really overlap (compare Waitall time with and without `MPI_Test`)? |
 | E | manual packing vs derived datatypes, broken down by face direction. | How expensive are non-contiguous faces? Does the answer depend on the decomposition? |
@@ -98,7 +99,7 @@ One C + MPI program. Every variant is a command-line option.
 - Baseline: multiple nodes, undersubscribed, one rank per CCD (16 ranks per node), as the instructor suggested.
 - Fixed number of time steps, a few warmup steps, `MPI_Barrier` before timing.
 - Each configuration is repeated at least 3 times; the median is reported.
-- Platform: UIUC Campus Cluster, eng-instruction partition, 2x AMD EPYC 7713 per node (128 cores, 16 CCDs of 8 cores, 32 MB L3 per CCD). Record compiler, MPI, and UCX settings (for example the rendezvous threshold, which matters for D).
+- Platform: UIUC Campus Cluster, eng-instruction partition, 2x AMD EPYC 7713 per node (128 cores, no SMT, 16 CCDs of 8 cores, 32 MB L3 per CCD), HDR InfiniBand. gcc 13.3.0, Open MPI 5.0.1 over UCX. Record UCX settings (for example the rendezvous threshold, which matters for D).
 
 ## 7. Schedule and risk
 
@@ -110,9 +111,10 @@ One C + MPI program. Every variant is a command-line option.
 
 ## 8. Decisions
 
-- Partition: eng-instruction (5 nodes, 12 h limit, dedicated, uniform hardware). Jobs use 4 nodes, leaving one spare. `secondary` (4 h limit) is the fallback, but its nodes are often shared (`mix`) and may differ in hardware, so timings there are noisier.
-- Baseline: 4 nodes x 16 ranks (one per CCD) = P = 64. Experiment B uses P = 48..64, which includes the primes 53, 59 and 61.
-- Problem sizes: N = 256 (local 64^3 at P = 64, about 2 MB per array, fits in L3, so communication matters more) and N = 1024 (local 256^3, about 134 MB per array, memory-bound compute dominates).
+- Partition: eng-instruction, account `26fa-cs598pa-eng`, `--constraint=AE7713`. The partition has 5 nodes, but only 3 (ccc0391-0393) are EPYC 7713; the other 2 are 64-core Intel Xeon 8358 nodes, so every job uses those 3 nodes (12 h limit, exclusive). `secondary` has more 7713 nodes (`--constraint=AE7713_100g_512G_NoGPU`) but a 4 h limit, shared nodes and a long queue.
+- Baseline: 3 nodes x 16 ranks (one per CCD) = P = 48 (multiple nodes, undersubscribed). Experiment B uses P = 36..48, which includes the primes 37, 41, 43 and 47. For P < 48, Slurm spreads ranks evenly over the nodes (37 -> 13/12/12).
+- Problem sizes: N = 240 (local 60x60x80 at 4x4x3, about 2.3 MB per array, fits in L3, so communication matters more) and N = 960 (local 240x240x320, about 147 MB per array, memory-bound compute dominates). 240 and 960 are divisible by every factor of 48, so the A/C/D/E grids have even subdomains; uneven splits show up only in B and S.
+- Steps per run: about 1e9 cell updates per rank, clamped to 20..1000 (`steps_for` in `scripts/common.sh`).
 
 ## 9. Code and usage
 
@@ -121,7 +123,7 @@ src/halo3d.c          the benchmark (one file)
 src/pingpong.c        alpha-beta measurement between two ranks
 scripts/common.sh     modules, CPU maps, helpers (sourced by every job)
 scripts/smoke.sh      correctness sweep (local, or inside an allocation)
-scripts/*.sbatch      smoke test, pingpong, experiments A-E
+scripts/*.sbatch      smoke test, pingpong, experiments S, A-E
 scripts/submit_all.sh submit smoke, then everything else once smoke passes
 results/              CSV output (one file per experiment) and Slurm logs
 ```
@@ -130,13 +132,13 @@ results/              CSV output (one file per experiment) and Slurm logs
 
 ```bash
 # Campus Cluster login node
-module load gcc openmpi            # adjust to `module avail openmpi`; same names go in scripts/common.sh
+module load gcc openmpi            # gcc/13.3.0 + openmpi/5.0.1-gcc-13.3.0
 make ARCH=-march=znver3
-scripts/submit_all.sh              # or: scripts/submit_all.sh -p secondary
-                                   # add -A <account> if the partition needs one
+scripts/submit_all.sh              # extra sbatch options are passed to every job
 
-# Local check (any machine with MPI)
-make && scripts/smoke.sh
+# Local check (any machine with MPI). On the login node there is no InfiniBand,
+# so UCX fails to load; use shared memory instead:
+OMPI_MCA_pml=ob1 OMPI_MCA_btl=self,vader scripts/smoke.sh
 ```
 
 `results/logs/halo-smoke-*.out` should show `smoke: 98/98 passed`, the `lscpu` table (confirm that cores 8c..8c+7 share one L3; otherwise fix `SPREAD`/`PACKED` in `scripts/common.sh`), and a placement listing where each rank sits on a distinct CCD.

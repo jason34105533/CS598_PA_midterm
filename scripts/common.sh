@@ -1,7 +1,6 @@
 # Sourced by every job script (run from the repo root).
 
-# Edit the module names to match `module avail openmpi` on Campus Cluster
-# (HW3 used gcc 13.3 + Open MPI 5.0.1 over UCX).
+# gcc/13.3.0 + openmpi/5.0.1-gcc-13.3.0 (UCX) on Campus Cluster.
 module load gcc openmpi 2>/dev/null
 command -v mpicc >/dev/null || { echo "mpicc not found: fix module names in scripts/common.sh"; exit 1; }
 [ -x bin/halo3d ] || { echo "bin/halo3d missing: run 'make ARCH=-march=znver3' on the login node"; exit 1; }
@@ -13,8 +12,13 @@ REPS=${REPS:-3}
 SPREAD=$(seq 0 8 127 | paste -sd, -)  # one rank per CCD: 0,8,...,120
 PACKED=$(seq 0 15 | paste -sd, -)      # 16 ranks on 2 CCDs
 
-# Steps per run, chosen so one run takes about 1-2 s.
-steps_for() { case $1 in 256) echo 1000 ;; 512) echo 300 ;; *) echo 100 ;; esac; }
+# steps_for N P: about 1e9 cell updates per rank (roughly 1 s), clamped to [20, 1000].
+steps_for() {
+    local s=$((1000000000 * $2 / ($1 * $1 * $1)))
+    ((s < 20)) && s=20
+    ((s > 1000)) && s=1000
+    echo "$s"
+}
 
 # All ordered factorizations P = Px*Py*Pz, printed as PxxPyxPz.
 factor3() {
@@ -30,12 +34,15 @@ factor3() {
 }
 
 # run NTASKS CPU_MAP DISTRIBUTION halo3d-args...
-# -c 8 makes each step own whole nodes (16 tasks x 8 CPUs), so map_cpu can pick
-# any core; srun does not inherit --cpus-per-task from sbatch on recent Slurm.
+# Uses ceil(NTASKS/16) nodes. --whole gives the step every CPU of its nodes, so
+# map_cpu can pick any core even when NTASKS < 16 per node. --whole is ignored
+# when -c is set, which is why the job headers do not use --cpus-per-task.
+# With NTASKS not a multiple of 16, Slurm spreads tasks evenly (37 -> 13/12/12).
 run() {
     local n=$1 map=$2 dist=$3
     shift 3
-    srun -n "$n" -c 8 --distribution="$dist" --cpu-bind=map_cpu:"$map" bin/halo3d "$@"
+    srun -n "$n" -N $(((n + 15) / 16)) --ntasks-per-node=16 --whole \
+        --distribution="$dist" --cpu-bind=map_cpu:"$map" bin/halo3d "$@"
 }
 
 echo "job $SLURM_JOB_ID on $SLURM_JOB_NODELIST  ($(date))"

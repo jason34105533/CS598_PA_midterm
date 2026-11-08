@@ -5,6 +5,6 @@ set -e
 mkdir -p results/logs
 smoke=$(sbatch --parsable "$@" scripts/smoke.sbatch)
 echo "smoke: $smoke"
-for s in pingpong A_shape B_badP C_placement D_overlap E_packing; do
+for s in pingpong S_scaling A_shape B_badP C_placement D_overlap E_packing; do
     echo "$s: $(sbatch --parsable -d afterok:"$smoke" "$@" scripts/$s.sbatch)"
 done

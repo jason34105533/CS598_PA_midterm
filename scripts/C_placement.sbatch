@@ -1,9 +1,10 @@
 #!/bin/bash
 #SBATCH -J halo-C
 #SBATCH -p eng-instruction
-#SBATCH -N 4
+#SBATCH -A 26fa-cs598pa-eng
+#SBATCH --constraint=AE7713
+#SBATCH -N 3
 #SBATCH --ntasks-per-node=16
-#SBATCH --cpus-per-task=8
 #SBATCH --mem=0
 #SBATCH --exclusive
 #SBATCH -t 01:00:00
@@ -14,13 +15,13 @@
 #   block_packed : consecutive ranks on one node, 16 ranks packed on 2 CCDs
 cd "$SLURM_SUBMIT_DIR" && source scripts/common.sh
 
-for N in 256 1024; do
-    for grid in 4x4x4 1x1x64 64x1x1; do
+for N in 240 960; do
+    for grid in 4x4x3 1x1x48 48x1x1; do
         for rep in $(seq "$REPS"); do
-            common=(--n "$N" --grid "$grid" --steps "$(steps_for "$N")" --mode nonblocking --pack manual --csv results/C.csv)
-            run 64 "$SPREAD" block "${common[@]}" --tag block_spread
-            run 64 "$SPREAD" cyclic "${common[@]}" --tag cyclic_spread
-            run 64 "$PACKED" block "${common[@]}" --tag block_packed
+            common=(--n "$N" --grid "$grid" --steps "$(steps_for "$N" 48)" --mode nonblocking --pack manual --csv results/C.csv)
+            run 48 "$SPREAD" block "${common[@]}" --tag block_spread
+            run 48 "$SPREAD" cyclic "${common[@]}" --tag cyclic_spread
+            run 48 "$PACKED" block "${common[@]}" --tag block_packed
         done
     done
 done
