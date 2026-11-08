@@ -177,7 +177,7 @@ Common setup: 3 nodes x 16 ranks (one per CCD), `shm` transport unless stated, 3
 
 Intra-node latency of 1.2-1.4 us, with bandwidth that saturates near the 100 Gb/s link rate, means that intra-node messages use the HCA (rc loopback), not shared memory. This is why the transport became an experiment dimension.
 
-**2026-11-08, jobs 12258964 and 12259215 (pingpong with shared memory).** `UCX_TLS=sm,self,rc` alone moves only eager messages (up to 8 KB) to shared memory: 0.11 us within a CCD instead of 1.36 us. Above 8 KB, `UCX_PROTO_INFO` shows rendezvous over `rc_mlx5`, so bandwidth stays about 8 GB/s. Adding `UCX_RNDV_THRESH=intra:inf` makes intra-node traffic eager:
+**2026-11-08, jobs 12258964 and 12259215 (pingpong with shared memory; data in `results/pingpong_v1.csv` and `results/diag_ucx.csv`).** `UCX_TLS=sm,self,rc` alone moves only eager messages (up to 8 KB) to shared memory: 0.11 us within a CCD instead of 1.36 us. Above 8 KB, `UCX_PROTO_INFO` shows rendezvous over `rc_mlx5`, so bandwidth stays about 8 GB/s. Adding `UCX_RNDV_THRESH=intra:inf` makes intra-node traffic eager:
 
 | Pair, one-way | 32 KB | 512 KB | 4 MB |
 |---|---|---|---|
