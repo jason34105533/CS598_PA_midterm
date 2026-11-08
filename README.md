@@ -211,13 +211,18 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - Worst vs best: 4.0x (N = 240), 3.4x (480), 2.1x (960). The prediction that shape barely matters at N = 960 was wrong: the slabs are 1.6-2.1x slower even there.
 - At N = 480 the fastest grids do not split z (8x6x1, 4x12x1), even though their halo is larger than that of 4x4x3.
 
+**2026-11-08, job 12259403 (B, bad P, `shm`).** 78 runs, all PASS. Plot: `figs/B_badP.png`.
+- Every prime P (1x1xP) is slower than every non-prime P from 38 to 48, and slower than or equal to P = 36 (3x3x4).
+- N = 240: P = 47 takes 0.71 ms against 0.38 ms at P = 40 (2x4x5) or 48. Using 40 ranks instead of 47 is 1.9x faster.
+- N = 960: P = 47 takes 45.5 ms against 30.0 ms at P = 45 (3x3x5). The prediction that the prime penalty almost disappears at N = 960 (about 2%) was wrong; it is about 1.5x, from both `wait` (17 vs 6 ms) and compute (33 vs 26 ms; the slab orientation effect from A).
+
 ## 8b. Status and next steps (update as things finish)
 
-- Done: smoke, pingpong, S (12259398), A (12259401). Plots: `figs/S_*.png`, `figs/A_shape.png`.
-- Queued in order on eng-instruction: B 12259403, C 12259404, D 12259405, E 12259406, then S2 12260302 (`afterany` on E).
+- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403). Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`.
+- Queued in order on eng-instruction: C 12259404, D 12259405, E 12259406, then S2 12260302 (`afterany` on E).
 - S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
 - After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
-- Remaining analysis: alpha-beta (+ node-bandwidth) model on A; D overlap table (`wait` per mode, shm vs rc); E pack cost by face direction; B fewer-ranks case.
+- Remaining analysis: alpha-beta (+ node-bandwidth) model on A; D overlap table (`wait` per mode, shm vs rc); E pack cost by face direction.
 - Decisions made: P = 48 on 3 nodes; N = 240/480/960 in A; `shm` = intra-node eager; pingpong, C and D under both `shm` and `rc`; keep mode name `nonblocking` (the no-overlap control).
 
 ## 9. Code and usage
