@@ -194,6 +194,12 @@ Within a socket, shared memory is about 3x faster than the HCA. Across sockets, 
 - Strong scaling efficiency at P = 48: 0.49 (N = 240), 0.44 (480), 0.53 (960). The curves do not collapse onto one efficiency vs n/P curve; for N = 480 and 960 most of the drop happens at P = 6..8, inside one socket. n/P where efficiency falls below 0.8: about 4.6e6 (N = 240), 3.2e7 (480), 1.5e8 (960).
 - N = 480 at P = 48 (about 37 MB per rank, near the 32 MB L3): efficiency recovers from 0.36 at P = 32 to 0.44.
 
+**2026-11-08, job 12259401 (A, shape, `shm`).** 405 runs, all PASS. Plot: `figs/A_shape.png` (`PYTHONPATH=analysis python3 analysis/plot_A.py`).
+- Best grids are near-cubic (2x4x6, 4x3x4, 3x4x4) at every N. Time per step grows with halo volume, and splitting x (the unit-stride direction) adds a penalty on top: at the same halo volume, Px >= 6 grids are the slowest.
+- Same surface, different orientation: 48x1x1 is 2.0x (N = 240), 1.8x (480) and 1.3x (960) slower than 1x1x48. Its pack + unpack alone is 32 ms per step at N = 960, against 7.6 ms for 1x1x48.
+- Worst vs best: 4.0x (N = 240), 3.4x (480), 2.1x (960). The prediction that shape barely matters at N = 960 was wrong: the slabs are 1.6-2.1x slower even there.
+- At N = 480 the fastest grids do not split z (8x6x1, 4x12x1), even though their halo is larger than that of 4x4x3.
+
 ## 9. Code and usage
 
 ```

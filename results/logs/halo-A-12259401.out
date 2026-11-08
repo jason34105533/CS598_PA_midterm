@@ -2936,3 +2936,1133 @@ halo3d  N=960  grid=1x16x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=
     comp_bd      0.0000 |    0.0000
   halo bytes/step: max per rank 5836800; total off-node 29491200, same-node 221184000, same-CCD 0
   local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=1x16x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.006 ms   (avg | max over ranks, ms)
+    pack         1.2057 |    1.4608
+    post         0.7148 |    1.9926
+    wait         5.2113 |    7.1006
+    unpack       0.8650 |    1.2522
+    comp_int    21.7079 |   23.5713
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 29491200, same-node 221184000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=1x16x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.201 ms   (avg | max over ranks, ms)
+    pack         1.2172 |    1.5090
+    post         0.7230 |    2.0302
+    wait         5.5674 |    7.6914
+    unpack       0.8524 |    1.1489
+    comp_int    21.4662 |   23.6369
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 29491200, same-node 221184000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=1x24x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.281 ms   (avg | max over ranks, ms)
+    pack         1.6611 |    2.0378
+    post         0.7517 |    1.1519
+    wait         4.9349 |    7.7922
+    unpack       1.1476 |    1.8400
+    comp_int    22.3000 |   24.1149
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=1x24x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.436 ms   (avg | max over ranks, ms)
+    pack         1.6942 |    1.9743
+    post         0.7985 |    1.3145
+    wait         5.3839 |    7.5811
+    unpack       1.1632 |    1.7894
+    comp_int    21.8797 |   23.2517
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=1x24x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.378 ms   (avg | max over ranks, ms)
+    pack         1.6960 |    1.9775
+    post         0.7826 |    1.2284
+    wait         5.1424 |    7.3555
+    unpack       1.1642 |    1.7963
+    comp_int    22.0580 |   23.5440
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=1x48x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 36.942 ms   (avg | max over ranks, ms)
+    pack         3.3211 |    4.1820
+    post         1.1802 |    2.2458
+    wait         7.9196 |   11.8715
+    unpack       2.7294 |    3.4373
+    comp_int    21.2024 |   22.2583
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 14745600; total off-node 29491200, same-node 663552000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=1x48x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 36.744 ms   (avg | max over ranks, ms)
+    pack         3.2812 |    3.9491
+    post         1.1535 |    2.5547
+    wait         7.5616 |   12.0295
+    unpack       2.7186 |    3.5614
+    comp_int    21.5146 |   23.9905
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 14745600; total off-node 29491200, same-node 663552000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=1x48x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 36.951 ms   (avg | max over ranks, ms)
+    pack         3.3398 |    3.8930
+    post         1.1944 |    2.1917
+    wait         7.9558 |   11.7717
+    unpack       2.7199 |    3.3223
+    comp_int    21.1707 |   21.9729
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 14745600; total off-node 29491200, same-node 663552000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x1x24  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.550 ms   (avg | max over ranks, ms)
+    pack         1.6495 |    2.2770
+    post         0.9017 |    2.6156
+    wait         4.8128 |    8.2607
+    unpack       1.3325 |    1.7876
+    comp_int    22.3932 |   24.1395
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x1x24  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.415 ms   (avg | max over ranks, ms)
+    pack         1.6263 |    2.2496
+    post         0.9325 |    2.5908
+    wait         4.9566 |    8.8991
+    unpack       1.3012 |    1.7757
+    comp_int    22.3772 |   24.0838
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x1x24  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.524 ms   (avg | max over ranks, ms)
+    pack         1.6088 |    2.2412
+    post         0.9137 |    2.5765
+    wait         4.8483 |    8.7580
+    unpack       1.3198 |    1.7545
+    comp_int    22.4918 |   24.1116
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x2x12  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.460 ms   (avg | max over ranks, ms)
+    pack         0.8628 |    1.2840
+    post         0.7041 |    1.7434
+    wait         3.2260 |    4.2775
+    unpack       0.6408 |    0.9984
+    comp_int    23.7789 |   25.1404
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 162201600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x2x12  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.500 ms   (avg | max over ranks, ms)
+    pack         0.8663 |    1.2769
+    post         0.7117 |    1.7978
+    wait         3.1776 |    4.1232
+    unpack       0.6418 |    0.9976
+    comp_int    23.8657 |   25.3400
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 162201600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x2x12  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.382 ms   (avg | max over ranks, ms)
+    pack         0.8734 |    1.2504
+    post         0.6912 |    1.7200
+    wait         3.3350 |    4.4630
+    unpack       0.6562 |    1.1533
+    comp_int    23.5767 |   25.1670
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 162201600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x3x8  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.061 ms   (avg | max over ranks, ms)
+    pack         0.7649 |    1.0898
+    post         0.6571 |    1.3252
+    wait         2.8577 |    4.2160
+    unpack       0.5324 |    0.8937
+    comp_int    24.1903 |   25.6260
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 33177600, same-node 114278400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x3x8  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.076 ms   (avg | max over ranks, ms)
+    pack         0.7652 |    1.0861
+    post         0.6567 |    1.3581
+    wait         2.8711 |    4.1664
+    unpack       0.5261 |    0.8020
+    comp_int    24.1824 |   25.3777
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 33177600, same-node 114278400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x3x8  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.754 ms   (avg | max over ranks, ms)
+    pack         0.7667 |    1.0644
+    post         0.6375 |    1.2263
+    wait         2.5020 |    3.6989
+    unpack       0.5417 |    0.8785
+    comp_int    24.2726 |   25.2449
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 33177600, same-node 114278400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x4x6  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.420 ms   (avg | max over ranks, ms)
+    pack         0.7241 |    1.0013
+    post         0.5753 |    0.7796
+    wait         2.2599 |    3.0982
+    unpack       0.4970 |    0.8098
+    comp_int    24.2922 |   25.4420
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 103219200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x4x6  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.520 ms   (avg | max over ranks, ms)
+    pack         0.7184 |    0.9990
+    post         0.5935 |    0.7850
+    wait         2.3388 |    3.1610
+    unpack       0.5004 |    0.8187
+    comp_int    24.2904 |   25.3764
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 103219200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x4x6  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.401 ms   (avg | max over ranks, ms)
+    pack         0.7264 |    0.9780
+    post         0.5893 |    0.7773
+    wait         2.2363 |    3.0454
+    unpack       0.4992 |    0.8345
+    comp_int    24.3081 |   25.4488
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 103219200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x6x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.577 ms   (avg | max over ranks, ms)
+    pack         0.7581 |    1.0347
+    post         0.4505 |    0.8029
+    wait         2.9475 |    4.0807
+    unpack       0.5382 |    0.8234
+    comp_int    23.8004 |   24.8130
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 36864000, same-node 95846400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x6x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.788 ms   (avg | max over ranks, ms)
+    pack         0.7389 |    0.9681
+    post         0.4639 |    0.9054
+    wait         3.1199 |    4.1348
+    unpack       0.5314 |    0.7971
+    comp_int    23.8604 |   24.7323
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 36864000, same-node 95846400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x6x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.601 ms   (avg | max over ranks, ms)
+    pack         0.7610 |    0.9699
+    post         0.4604 |    0.7790
+    wait         2.8748 |    3.6718
+    unpack       0.5245 |    0.8116
+    comp_int    23.9492 |   24.4995
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 36864000, same-node 95846400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x8x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.452 ms   (avg | max over ranks, ms)
+    pack         0.8857 |    1.0939
+    post         0.5620 |    1.4798
+    wait         4.0840 |    6.6408
+    unpack       0.6521 |    1.0319
+    comp_int    23.1150 |   25.5656
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 29491200, same-node 117964800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x8x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.016 ms   (avg | max over ranks, ms)
+    pack         0.9008 |    1.1093
+    post         0.5371 |    1.3978
+    wait         3.4706 |    5.3618
+    unpack       0.6318 |    0.9422
+    comp_int    23.3190 |   25.2256
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 29491200, same-node 117964800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x8x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.215 ms   (avg | max over ranks, ms)
+    pack         0.9240 |    1.2509
+    post         0.5496 |    1.4548
+    wait         4.0303 |    6.4825
+    unpack       0.6389 |    0.9126
+    comp_int    22.9005 |   25.0292
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 29491200, same-node 117964800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x12x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.369 ms   (avg | max over ranks, ms)
+    pack         1.1150 |    1.3606
+    post         0.5598 |    1.4610
+    wait         4.0291 |    7.3115
+    unpack       0.7400 |    1.1144
+    comp_int    22.7559 |   25.0288
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 162201600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x12x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.407 ms   (avg | max over ranks, ms)
+    pack         1.1097 |    1.3880
+    post         0.5594 |    1.5468
+    wait         4.0321 |    7.3845
+    unpack       0.7398 |    1.0857
+    comp_int    22.7722 |   24.9958
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 162201600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x12x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.428 ms   (avg | max over ranks, ms)
+    pack         1.1123 |    1.3869
+    post         0.5610 |    1.4270
+    wait         4.2210 |    7.7123
+    unpack       0.7393 |    1.1426
+    comp_int    22.6199 |   25.0564
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 162201600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x24x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.941 ms   (avg | max over ranks, ms)
+    pack         1.8502 |    2.5635
+    post         0.8905 |    2.4586
+    wait         4.6168 |    7.9475
+    unpack       1.3330 |    1.9126
+    comp_int    22.8435 |   24.4796
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x24x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.990 ms   (avg | max over ranks, ms)
+    pack         1.8553 |    2.5524
+    post         0.9159 |    2.6771
+    wait         4.6837 |    8.1908
+    unpack       1.3320 |    1.7766
+    comp_int    22.8115 |   24.5531
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=2x24x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.907 ms   (avg | max over ranks, ms)
+    pack         1.8319 |    2.5310
+    post         0.9344 |    2.7127
+    wait         4.6699 |    8.8329
+    unpack       1.3283 |    1.7483
+    comp_int    22.8397 |   24.6136
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x1x16  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.214 ms   (avg | max over ranks, ms)
+    pack         1.2865 |    1.7349
+    post         0.7131 |    1.7390
+    wait         3.7724 |    7.0349
+    unpack       0.9864 |    1.7521
+    comp_int    23.1782 |   24.8626
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 31334400, same-node 219340800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x1x16  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.140 ms   (avg | max over ranks, ms)
+    pack         1.2932 |    1.7671
+    post         0.7032 |    1.7536
+    wait         3.7100 |    6.8290
+    unpack       0.9965 |    1.6958
+    comp_int    23.1442 |   24.8148
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 31334400, same-node 219340800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x1x16  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.225 ms   (avg | max over ranks, ms)
+    pack         1.2888 |    1.7164
+    post         0.7145 |    1.7136
+    wait         3.7768 |    6.7025
+    unpack       0.9916 |    1.6563
+    comp_int    23.1631 |   24.8295
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 31334400, same-node 219340800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x2x8  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.467 ms   (avg | max over ranks, ms)
+    pack         0.9138 |    1.3070
+    post         0.6926 |    1.3402
+    wait         3.1826 |    4.8001
+    unpack       0.6024 |    0.9829
+    comp_int    24.0187 |   25.1210
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 33792000, same-node 113664000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x2x8  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.028 ms   (avg | max over ranks, ms)
+    pack         0.9238 |    1.3526
+    post         0.6467 |    1.2184
+    wait         2.6051 |    3.9683
+    unpack       0.6193 |    1.0058
+    comp_int    24.1467 |   24.9527
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 33792000, same-node 113664000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x2x8  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.248 ms   (avg | max over ranks, ms)
+    pack         0.9272 |    1.2438
+    post         0.6659 |    1.2301
+    wait         2.9781 |    4.2818
+    unpack       0.6185 |    0.9804
+    comp_int    24.0122 |   24.9723
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 33792000, same-node 113664000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x4x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.306 ms   (avg | max over ranks, ms)
+    pack         0.8417 |    1.0231
+    post         0.4539 |    0.7700
+    wait         3.0559 |    4.1792
+    unpack       0.5264 |    0.8017
+    comp_int    24.3382 |   24.8105
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 38707200, same-node 79257600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x4x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.758 ms   (avg | max over ranks, ms)
+    pack         0.8562 |    1.0731
+    post         0.4430 |    0.7277
+    wait         2.5951 |    3.4440
+    unpack       0.5048 |    0.7709
+    comp_int    24.3137 |   24.8548
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 38707200, same-node 79257600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x4x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.858 ms   (avg | max over ranks, ms)
+    pack         0.8606 |    1.0666
+    post         0.4539 |    0.7435
+    wait         2.7086 |    3.9536
+    unpack       0.5215 |    0.8302
+    comp_int    24.2708 |   24.7399
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 38707200, same-node 79257600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x8x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.860 ms   (avg | max over ranks, ms)
+    pack         1.0262 |    1.2555
+    post         0.4562 |    1.2393
+    wait         3.3928 |    7.2320
+    unpack       0.6505 |    1.0621
+    comp_int    23.2380 |   24.7268
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 31334400, same-node 116121600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x8x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.970 ms   (avg | max over ranks, ms)
+    pack         1.0286 |    1.2886
+    post         0.4678 |    1.2740
+    wait         3.4060 |    6.9977
+    unpack       0.6594 |    1.1038
+    comp_int    23.3206 |   24.8176
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 31334400, same-node 116121600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x8x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.086 ms   (avg | max over ranks, ms)
+    pack         1.0246 |    1.2760
+    post         0.4775 |    1.2454
+    wait         3.7014 |    7.6353
+    unpack       0.6570 |    1.1129
+    comp_int    23.1232 |   24.7689
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 31334400, same-node 116121600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x16x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.049 ms   (avg | max over ranks, ms)
+    pack         1.4414 |    1.9868
+    post         0.7119 |    1.7395
+    wait         3.6431 |    6.7820
+    unpack       0.9821 |    1.6849
+    comp_int    24.0358 |   25.5453
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 31334400, same-node 219340800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x16x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.980 ms   (avg | max over ranks, ms)
+    pack         1.4592 |    1.9794
+    post         0.7121 |    1.7529
+    wait         3.4903 |    5.7244
+    unpack       0.9758 |    1.6306
+    comp_int    24.0861 |   25.5485
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 31334400, same-node 219340800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=3x16x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.042 ms   (avg | max over ranks, ms)
+    pack         1.4472 |    1.9600
+    post         0.7043 |    1.6113
+    wait         3.6164 |    5.6255
+    unpack       0.9909 |    1.5929
+    comp_int    23.9698 |   25.5714
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 31334400, same-node 219340800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x1x12  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.118 ms   (avg | max over ranks, ms)
+    pack         1.2255 |    1.6201
+    post         0.7021 |    1.6014
+    wait         3.7686 |    5.9288
+    unpack       0.9229 |    1.5305
+    comp_int    23.2354 |   24.9366
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 29491200, same-node 176947200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x1x12  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.045 ms   (avg | max over ranks, ms)
+    pack         1.2053 |    1.6096
+    post         0.7031 |    1.7563
+    wait         3.4993 |    4.9517
+    unpack       0.9108 |    1.5318
+    comp_int    23.5105 |   24.9711
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 29491200, same-node 176947200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x1x12  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.951 ms   (avg | max over ranks, ms)
+    pack         1.2283 |    1.5871
+    post         0.6896 |    1.6169
+    wait         3.4828 |    5.7379
+    unpack       0.9241 |    1.5194
+    comp_int    23.3771 |   24.9670
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 29491200, same-node 176947200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x2x6  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.815 ms   (avg | max over ranks, ms)
+    pack         1.0292 |    1.2351
+    post         0.5810 |    0.8215
+    wait         2.3337 |    3.3924
+    unpack       0.6230 |    0.9343
+    comp_int    24.2091 |   25.1395
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 103219200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x2x6  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.803 ms   (avg | max over ranks, ms)
+    pack         1.0304 |    1.3220
+    post         0.5837 |    0.7985
+    wait         2.2224 |    3.2117
+    unpack       0.6151 |    0.9653
+    comp_int    24.2953 |   25.3520
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 103219200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x2x6  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 28.746 ms   (avg | max over ranks, ms)
+    pack         1.0257 |    1.2731
+    post         0.5827 |    0.8099
+    wait         2.2439 |    3.2870
+    unpack       0.6324 |    0.9665
+    comp_int    24.2144 |   25.3056
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 103219200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x3x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.442 ms   (avg | max over ranks, ms)
+    pack         0.9928 |    1.3766
+    post         0.4578 |    0.7827
+    wait         3.0546 |    4.5223
+    unpack       0.5938 |    0.9406
+    comp_int    24.2211 |   24.9187
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 36864000, same-node 81100800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x3x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.080 ms   (avg | max over ranks, ms)
+    pack         0.9941 |    1.2139
+    post         0.4373 |    0.7479
+    wait         2.7677 |    4.2228
+    unpack       0.5871 |    1.0172
+    comp_int    24.1988 |   25.0035
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 36864000, same-node 81100800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x3x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.197 ms   (avg | max over ranks, ms)
+    pack         0.9947 |    1.2000
+    post         0.4326 |    0.6903
+    wait         2.8107 |    3.8440
+    unpack       0.5644 |    0.8936
+    comp_int    24.3564 |   24.8936
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 36864000, same-node 81100800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x4x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.223 ms   (avg | max over ranks, ms)
+    pack         1.0173 |    1.2277
+    post         0.4494 |    0.9012
+    wait         3.1749 |    4.8501
+    unpack       0.6052 |    1.1038
+    comp_int    23.8702 |   25.3061
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 88473600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x4x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.161 ms   (avg | max over ranks, ms)
+    pack         1.0041 |    1.2546
+    post         0.4418 |    0.9194
+    wait         3.2062 |    5.0481
+    unpack       0.6111 |    1.1616
+    comp_int    23.8004 |   25.5765
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 88473600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x4x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.297 ms   (avg | max over ranks, ms)
+    pack         1.0224 |    1.2202
+    post         0.4384 |    0.8616
+    wait         3.3042 |    5.0608
+    unpack       0.6128 |    1.1246
+    comp_int    23.7053 |   25.1267
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 88473600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x6x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.102 ms   (avg | max over ranks, ms)
+    pack         1.0861 |    1.3460
+    post         0.4504 |    1.1158
+    wait         3.2816 |    6.9337
+    unpack       0.6907 |    1.1508
+    comp_int    23.4597 |   24.6447
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 103219200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x6x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.104 ms   (avg | max over ranks, ms)
+    pack         1.0669 |    1.2926
+    post         0.4525 |    1.3423
+    wait         3.3218 |    6.7917
+    unpack       0.6929 |    1.1208
+    comp_int    23.4637 |   24.6941
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 103219200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x6x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.286 ms   (avg | max over ranks, ms)
+    pack         1.0632 |    1.3123
+    post         0.4703 |    1.4790
+    wait         3.6782 |    7.4516
+    unpack       0.7009 |    1.1514
+    comp_int    23.2838 |   24.6839
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 29491200, same-node 103219200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x12x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.483 ms   (avg | max over ranks, ms)
+    pack         1.3971 |    1.8611
+    post         0.6990 |    1.5432
+    wait         3.7305 |    6.1619
+    unpack       0.9218 |    1.4499
+    comp_int    23.4779 |   25.3276
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 29491200, same-node 176947200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x12x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.396 ms   (avg | max over ranks, ms)
+    pack         1.3918 |    1.8535
+    post         0.6954 |    1.5265
+    wait         3.5366 |    5.3717
+    unpack       0.9251 |    1.5247
+    comp_int    23.5799 |   25.4096
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 29491200, same-node 176947200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=4x12x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.314 ms   (avg | max over ranks, ms)
+    pack         1.3944 |    1.8545
+    post         0.6833 |    1.4518
+    wait         3.4824 |    5.3456
+    unpack       0.9254 |    1.4624
+    comp_int    23.5588 |   25.1312
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 29491200, same-node 176947200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x1x8  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.115 ms   (avg | max over ranks, ms)
+    pack         1.4631 |    1.8980
+    post         0.6593 |    1.5846
+    wait         3.1603 |    5.5268
+    unpack       0.9910 |    1.5096
+    comp_int    23.6514 |   25.3211
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 33177600, same-node 143769600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x1x8  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.257 ms   (avg | max over ranks, ms)
+    pack         1.4596 |    1.8592
+    post         0.6540 |    1.4694
+    wait         3.4952 |    5.8368
+    unpack       0.9865 |    1.5119
+    comp_int    23.5177 |   25.1162
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 33177600, same-node 143769600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x1x8  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.275 ms   (avg | max over ranks, ms)
+    pack         1.4656 |    1.8481
+    post         0.6503 |    1.3664
+    wait         3.2801 |    4.8499
+    unpack       0.9878 |    1.4489
+    comp_int    23.7510 |   25.2814
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 33177600, same-node 143769600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x2x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.476 ms   (avg | max over ranks, ms)
+    pack         1.3436 |    1.6018
+    post         0.4815 |    1.0164
+    wait         2.9449 |    5.1682
+    unpack       0.8267 |    1.1538
+    comp_int    23.7902 |   24.8231
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 38092800, same-node 94617600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x2x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.366 ms   (avg | max over ranks, ms)
+    pack         1.3393 |    1.5777
+    post         0.4766 |    0.9589
+    wait         2.8436 |    5.1236
+    unpack       0.8162 |    1.1232
+    comp_int    23.8448 |   24.8535
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 38092800, same-node 94617600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x2x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 29.391 ms   (avg | max over ranks, ms)
+    pack         1.3338 |    1.6464
+    post         0.4849 |    0.9827
+    wait         2.8959 |    4.8440
+    unpack       0.8114 |    1.1204
+    comp_int    23.8240 |   24.7784
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 38092800, same-node 94617600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x4x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.194 ms   (avg | max over ranks, ms)
+    pack         1.3849 |    1.7760
+    post         0.4789 |    1.6659
+    wait         4.5834 |    8.5664
+    unpack       0.8547 |    1.2612
+    comp_int    22.7817 |   24.4351
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 33177600, same-node 99532800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x4x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.133 ms   (avg | max over ranks, ms)
+    pack         1.3982 |    1.6565
+    post         0.4828 |    1.6810
+    wait         4.3344 |    8.8022
+    unpack       0.8541 |    1.2265
+    comp_int    22.9304 |   24.7377
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 33177600, same-node 99532800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x4x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.103 ms   (avg | max over ranks, ms)
+    pack         1.3854 |    1.6954
+    post         0.4796 |    1.6259
+    wait         4.2643 |    8.5246
+    unpack       0.8510 |    1.2471
+    comp_int    22.9948 |   24.5916
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3379200; total off-node 33177600, same-node 99532800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x8x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.480 ms   (avg | max over ranks, ms)
+    pack         1.6030 |    2.0315
+    post         0.6574 |    1.4142
+    wait         3.3219 |    5.3712
+    unpack       1.0221 |    1.5035
+    comp_int    23.6751 |   25.3606
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 33177600, same-node 143769600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x8x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.460 ms   (avg | max over ranks, ms)
+    pack         1.5971 |    1.9975
+    post         0.6423 |    1.2795
+    wait         3.5813 |    6.0771
+    unpack       1.0238 |    1.4918
+    comp_int    23.4378 |   25.2805
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 33177600, same-node 143769600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=6x8x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.610 ms   (avg | max over ranks, ms)
+    pack         1.5940 |    2.0306
+    post         0.6691 |    1.4276
+    wait         3.5619 |    5.8090
+    unpack       1.0094 |    1.4788
+    comp_int    23.6379 |   25.3456
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 33177600, same-node 143769600, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x1x6  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.660 ms   (avg | max over ranks, ms)
+    pack         1.7391 |    2.1605
+    post         0.6804 |    1.0294
+    wait         2.8610 |    4.7477
+    unpack       1.1569 |    1.5217
+    comp_int    24.1249 |   25.2779
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 147456000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x1x6  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.667 ms   (avg | max over ranks, ms)
+    pack         1.7280 |    1.9942
+    post         0.6863 |    1.0382
+    wait         2.8825 |    4.6181
+    unpack       1.1454 |    1.4963
+    comp_int    24.1384 |   25.3240
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 147456000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x1x6  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.662 ms   (avg | max over ranks, ms)
+    pack         1.7350 |    2.0527
+    post         0.6746 |    1.0398
+    wait         2.9628 |    4.6868
+    unpack       1.1569 |    1.4534
+    comp_int    24.0549 |   25.3117
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 147456000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x2x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.719 ms   (avg | max over ranks, ms)
+    pack         1.7587 |    2.1081
+    post         0.5530 |    0.8791
+    wait         3.3517 |    5.8016
+    unpack       1.1413 |    1.6417
+    comp_int    23.8089 |   25.0263
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 29491200, same-node 117964800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x2x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.854 ms   (avg | max over ranks, ms)
+    pack         1.7854 |    2.2479
+    post         0.5679 |    0.8749
+    wait         3.6542 |    6.6152
+    unpack       1.1431 |    1.7598
+    comp_int    23.6139 |   24.7149
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 29491200, same-node 117964800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x2x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.668 ms   (avg | max over ranks, ms)
+    pack         1.7535 |    2.1259
+    post         0.5487 |    0.8988
+    wait         3.2114 |    5.7139
+    unpack       1.1290 |    1.5990
+    comp_int    23.9181 |   25.1250
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 29491200, same-node 117964800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x3x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.566 ms   (avg | max over ranks, ms)
+    pack         1.7246 |    1.9446
+    post         0.4822 |    0.9299
+    wait         3.1363 |    6.8155
+    unpack       1.0846 |    1.5241
+    comp_int    24.0264 |   24.9795
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 29491200, same-node 117964800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x3x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.609 ms   (avg | max over ranks, ms)
+    pack         1.7779 |    2.1578
+    post         0.5048 |    0.8876
+    wait         3.3773 |    7.4706
+    unpack       1.1267 |    1.7527
+    comp_int    23.7236 |   24.8348
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 29491200, same-node 117964800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x3x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 30.679 ms   (avg | max over ranks, ms)
+    pack         1.7488 |    2.0525
+    post         0.4968 |    0.9984
+    wait         3.3471 |    7.2321
+    unpack       1.1021 |    1.6205
+    comp_int    23.9132 |   24.9245
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 3686400; total off-node 29491200, same-node 117964800, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x6x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.031 ms   (avg | max over ranks, ms)
+    pack         1.8359 |    2.0940
+    post         0.6693 |    1.0626
+    wait         2.8998 |    4.7584
+    unpack       1.1911 |    1.6684
+    comp_int    24.3488 |   25.4437
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 147456000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x6x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.115 ms   (avg | max over ranks, ms)
+    pack         1.8673 |    2.3482
+    post         0.6704 |    1.0101
+    wait         2.8291 |    5.1279
+    unpack       1.1838 |    1.7383
+    comp_int    24.4439 |   25.5677
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 147456000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=8x6x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 31.120 ms   (avg | max over ranks, ms)
+    pack         1.8255 |    2.1990
+    post         0.6836 |    1.1127
+    wait         2.9928 |    5.2017
+    unpack       1.1809 |    1.6549
+    comp_int    24.3465 |   25.5983
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 29491200, same-node 147456000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=12x1x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 32.659 ms   (avg | max over ranks, ms)
+    pack         2.5125 |    3.1190
+    post         0.5788 |    1.0121
+    wait         2.9758 |    5.7835
+    unpack       1.7633 |    2.2162
+    comp_int    24.7346 |   25.6913
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 36864000, same-node 169574400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=12x1x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 32.579 ms   (avg | max over ranks, ms)
+    pack         2.5734 |    3.0509
+    post         0.5949 |    1.2156
+    wait         3.0402 |    6.1385
+    unpack       1.7808 |    2.2595
+    comp_int    24.4997 |   25.7455
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 36864000, same-node 169574400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=12x1x4  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 32.627 ms   (avg | max over ranks, ms)
+    pack         2.5714 |    3.0728
+    post         0.5872 |    1.3620
+    wait         3.1881 |    5.9610
+    unpack       1.7645 |    2.1601
+    comp_int    24.4308 |   25.7235
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 36864000, same-node 169574400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=12x2x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 32.601 ms   (avg | max over ranks, ms)
+    pack         2.5519 |    3.2344
+    post         0.5559 |    1.6522
+    wait         3.3750 |    7.2953
+    unpack       1.7571 |    2.4414
+    comp_int    24.2718 |   25.5288
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 31948800, same-node 159744000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=12x2x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 32.610 ms   (avg | max over ranks, ms)
+    pack         2.5412 |    3.2627
+    post         0.5499 |    1.6543
+    wait         3.3039 |    6.8015
+    unpack       1.7510 |    2.5039
+    comp_int    24.3579 |   25.3980
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 31948800, same-node 159744000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=12x2x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 32.665 ms   (avg | max over ranks, ms)
+    pack         2.5456 |    3.0916
+    post         0.5441 |    1.4389
+    wait         3.4700 |    7.9953
+    unpack       1.7063 |    2.3083
+    comp_int    24.3086 |   25.8578
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4300800; total off-node 31948800, same-node 159744000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=12x4x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 33.446 ms   (avg | max over ranks, ms)
+    pack         2.7055 |    3.2281
+    post         0.6337 |    1.1883
+    wait         4.2215 |    8.0908
+    unpack       1.7881 |    2.3828
+    comp_int    23.8031 |   25.3543
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 36864000, same-node 169574400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=12x4x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 33.121 ms   (avg | max over ranks, ms)
+    pack         2.7381 |    3.2062
+    post         0.6251 |    1.0235
+    wait         4.0620 |    7.2775
+    unpack       1.8180 |    2.3835
+    comp_int    23.7212 |   25.3944
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 36864000, same-node 169574400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=12x4x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 32.706 ms   (avg | max over ranks, ms)
+    pack         2.5837 |    3.0743
+    post         0.5705 |    1.0674
+    wait         2.9787 |    5.3890
+    unpack       1.7382 |    2.1374
+    comp_int    24.7483 |   26.0001
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 4915200; total off-node 36864000, same-node 169574400, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=16x1x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 35.582 ms   (avg | max over ranks, ms)
+    pack         3.8226 |    4.3388
+    post         0.7498 |    1.8792
+    wait         5.2781 |    8.7233
+    unpack       2.6809 |    3.2648
+    comp_int    22.6139 |   25.0705
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 29491200, same-node 221184000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=16x1x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 35.696 ms   (avg | max over ranks, ms)
+    pack         3.8960 |    4.4683
+    post         0.7738 |    1.9651
+    wait         5.8946 |    9.3359
+    unpack       2.6761 |    3.0205
+    comp_int    22.0603 |   24.3541
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 29491200, same-node 221184000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=16x1x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 35.662 ms   (avg | max over ranks, ms)
+    pack         3.9055 |    4.3772
+    post         0.7747 |    2.1207
+    wait         5.7884 |    9.0590
+    unpack       2.6789 |    2.9998
+    comp_int    22.1851 |   24.2910
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 29491200, same-node 221184000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=16x3x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 36.121 ms   (avg | max over ranks, ms)
+    pack         3.8806 |    4.3945
+    post         0.7866 |    1.9963
+    wait         5.3573 |    8.1633
+    unpack       2.6814 |    3.1549
+    comp_int    23.0594 |   24.8885
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 29491200, same-node 221184000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=16x3x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 36.216 ms   (avg | max over ranks, ms)
+    pack         3.8961 |    4.4205
+    post         0.7756 |    1.9897
+    wait         5.6711 |    8.5424
+    unpack       2.6740 |    3.1344
+    comp_int    22.8156 |   24.6149
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 29491200, same-node 221184000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=16x3x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 36.071 ms   (avg | max over ranks, ms)
+    pack         3.8935 |    4.3653
+    post         0.7638 |    2.0815
+    wait         5.2556 |    7.9899
+    unpack       2.6776 |    3.1082
+    comp_int    23.0676 |   24.6754
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 5836800; total off-node 29491200, same-node 221184000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=24x1x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 41.545 ms   (avg | max over ranks, ms)
+    pack         6.2198 |    7.3325
+    post         0.9236 |    1.9562
+    wait         6.4310 |   12.7683
+    unpack       5.6808 |    7.1309
+    comp_int    21.7080 |   24.7984
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=24x1x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 41.477 ms   (avg | max over ranks, ms)
+    pack         6.3233 |    7.2350
+    post         0.9455 |    2.0005
+    wait         6.5680 |   12.5722
+    unpack       5.7086 |    7.0825
+    comp_int    21.3218 |   23.9820
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=24x1x2  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 41.315 ms   (avg | max over ranks, ms)
+    pack         6.3650 |    7.4558
+    post         0.9291 |    1.6817
+    wait         6.3467 |   12.7121
+    unpack       5.7360 |    7.1217
+    comp_int    21.3689 |   23.8294
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=24x2x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 41.494 ms   (avg | max over ranks, ms)
+    pack         6.2197 |    7.5593
+    post         0.9306 |    2.0748
+    wait         6.1411 |   13.0339
+    unpack       5.7221 |    7.4843
+    comp_int    21.9625 |   24.7447
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=24x2x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 41.352 ms   (avg | max over ranks, ms)
+    pack         6.2392 |    7.3706
+    post         0.9226 |    1.8828
+    wait         6.0591 |   12.6289
+    unpack       5.7255 |    7.4109
+    comp_int    21.9178 |   24.7244
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=24x2x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 41.393 ms   (avg | max over ranks, ms)
+    pack         6.2598 |    7.1636
+    post         0.9280 |    2.0704
+    wait         6.1368 |   12.9920
+    unpack       5.7417 |    7.4592
+    comp_int    21.8546 |   24.3119
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 7680000; total off-node 29491200, same-node 324403200, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=48x1x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 59.204 ms   (avg | max over ranks, ms)
+    pack        12.8970 |   16.1547
+    post         1.5133 |    2.7621
+    wait         8.8960 |   22.5833
+    unpack      13.2186 |   16.3982
+    comp_int    21.6344 |   25.3229
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 14745600; total off-node 29491200, same-node 663552000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=48x1x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 59.185 ms   (avg | max over ranks, ms)
+    pack        12.7744 |   15.7559
+    post         1.5305 |    2.5434
+    wait         8.7664 |   22.5794
+    unpack      13.1609 |   16.2172
+    comp_int    21.8548 |   26.4869
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 14745600; total off-node 29491200, same-node 663552000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
+halo3d  N=960  grid=48x1x1  P=48  nodes=3  mode=nonblocking  pack=manual  steps=54
+  time/step 59.126 ms   (avg | max over ranks, ms)
+    pack        12.8506 |   15.9534
+    post         1.5218 |    2.5360
+    wait         8.8516 |   22.5116
+    unpack      13.1702 |   16.3717
+    comp_int    21.7045 |   25.5060
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 14745600; total off-node 29491200, same-node 663552000, same-CCD 0
+  local cells min 18432000 max 18432000   rel_err 1.373e-15  PASS
