@@ -230,13 +230,24 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - N = 240: under `rc`, 4x4x3 gains a lot (0.84 -> 0.46 ms with `overlap`, 0.33 ms with `overlap_test`, 2.5x). Under `shm` (intra-node eager) the modes are close. 1x1x48 does not gain in any mode, because its communication (about 1 ms) is much longer than the 0.1-0.2 ms of interior compute it could hide behind.
 - Under `shm`, `overlap_test` at N = 960 helps 4x4x3 `wait` (5.1 -> 2.5 ms) but not 1x1x48 (12.9 -> 12.1 ms).
 
+**A model (`analysis/model_A.py`, plot `figs/A_model.png`).** `t_step = a + b*halo + c*log2(Px)`, fitted per N over the 45 grids:
+
+| N | b (ms/MB) | effective GB/s per rank | c (ms per halving of x) | R^2 | R^2, halo only |
+|---|---|---|---|---|---|
+| 240 | 0.79 | 1.27 | 0.08 | 0.70 | 0.41 |
+| 480 | 0.91 | 1.10 | 0.25 | 0.59 | 0.44 |
+| 960 | 1.54 | 0.65 | 1.89 | 0.90 | 0.65 |
+
+- Halo volume plus the x-split penalty explains most of the shape effect. The effective bandwidth with all 48 ranks exchanging at once (0.65-1.3 GB/s per rank) is well below the two-point pingpong numbers (3-25 GB/s intra-node, 2.7 GB/s inter-node), so a two-point alpha-beta model underestimates the communication time.
+- Off-node bytes per node hardly change across the 45 grids (0.61-0.81 MB at N = 240) while intra-node bytes vary 8x. With block placement, inter-node traffic is set by the node-level decomposition (Section 3), not by the rank grid.
+
 ## 8b. Status and next steps (update as things finish)
 
 - Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405). Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`.
 - Queued in order on eng-instruction: E 12259406, then S2 12260302 (`afterany` on E).
 - S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
 - After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
-- Remaining analysis: alpha-beta (+ node-bandwidth) model on A; E pack cost by face direction.
+- Remaining analysis: E pack cost by face direction; S2 vs S comparison plot.
 - Decisions made: P = 48 on 3 nodes; N = 240/480/960 in A; `shm` = intra-node eager; pingpong, C and D under both `shm` and `rc`; keep mode name `nonblocking` (the no-overlap control).
 
 ## 9. Code and usage
