@@ -94,6 +94,50 @@ One C + MPI program. Every variant is a command-line option.
 | E | manual packing vs derived datatypes, broken down by face direction. | How expensive are non-contiguous faces? Does the answer depend on the decomposition? |
 | F (stretch) | Irregular decomposition for prime P. | Can it beat 1x1xP and beat dropping ranks? |
 
+## 5a. Predictions (written before the main runs)
+
+Common setup: 3 nodes x 16 ranks (one per CCD), `shm` transport unless stated, 3 repetitions, median reported. Main metric `t_step` (slowest rank), plus the phase breakdown and halo bytes per hierarchy level. These are expectations to check against the data, not results.
+
+**A thread through all experiments: the two-point alpha-beta model probably underestimates communication.** In the smoke run (N=240, 4x4x3, `rc`), `wait` was 0.64 ms of a 0.87 ms step, while pingpong alpha/beta predicts about 30 us for the 211 KB each rank sends. A likely cause is that the 16 ranks of a node share one HCA (under `rc` even intra-node traffic uses it), so per-node injection bandwidth, not the per-pair beta, sets the cost. The model will probably need a per-node bandwidth term: `T_comm ~ max(sum over a rank's messages of (alpha + m*beta), node_bytes / B_node)`.
+
+**S (scaling).**
+- Strong: N = 240, 480, 960; P = 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48. Weak: local volume about 60^3 and 240^3.
+- Plots: time vs P (log-log), efficiency vs n/P (semi-log x, one curve per N), n_0.8.
+- Expect a kink between P = 16 (one node) and P = 24 (first inter-node traffic).
+- N = 480 at P = 48 has two arrays of about 37 MB per rank, right at the 32 MB L3 of a CCD, so superlinear compute speedup is possible there. That is the "cache or communication" question in concrete form.
+- N = 240 at large P should be communication-bound with low efficiency.
+
+**A (shape, the core experiment).** All 45 ordered factorizations of 48, N = 240 and 960. Group them as 1D (slab), 2D (pencil), 3D (block) decompositions.
+- N = 240 (communication-bound): 1x1x48 sends 922 KB per rank in 2 messages, 4x4x3 sends 211 KB in 6. With alpha around 1 us, the latency term is small, so the slab should be clearly slower. A latency/bandwidth crossover would need a much smaller N.
+- N = 960 (compute-bound): compute is about 20 ms per step per rank, communication 1-2 ms, so shape matters mostly through memory behavior. 48x1x1 leaves 20 cells in the unit-stride direction (short inner loops, poor vectorization and prefetch) and strided x-faces. 1x1x48 and 48x1x1 have the same surface but may differ a lot (orientation effect).
+- Analysis: measured `t_step` against halo bytes and message count, with the model `T = T_comp + T_comm` (including the node-bandwidth term) on top.
+
+**B (bad P).** N fixed (240, 960), P = 36..48 with `MPI_Dims_create`. 37, 41, 43, 47 are forced to 1x1xP.
+- N = 240: P = 47 (1x1x47) should be much slower than P = 48 (3x4x4), and possibly slower than P = 40 (2x4x5) or 45 (3x3x5), which would be the "fewer cores is faster" case.
+- N = 960: compute dominates, so P = 47 should be only about 2% slower than 48.
+- Caveat: for P not a multiple of 16, Slurm spreads ranks evenly (37 -> 13/12/12), so node placement differs between P values. Use `bytes_offnode` to separate that effect.
+
+**C (placement x transport).** Grids 4x4x3, 1x1x48, 48x1x1; block_spread (baseline), cyclic_spread (every slab face crosses nodes), block_packed (16 ranks of a node on 2 CCDs); each under `shm` and `rc`.
+- `shm`: the block vs cyclic gap should be largest, because intra-node traffic is cheap and cyclic pushes all of it onto the network.
+- `rc`: intra-node traffic also goes through the HCA, so the block vs cyclic gap should shrink. The hierarchy argument of Section 3 only holds if the levels really differ in cost, and the transport decides that.
+- packed: communication is closer, but 8 ranks share one L3 and the CCD's memory bandwidth, so compute at N = 960 should slow down. This shows directly why undersubscription is used.
+
+**D (overlap x transport).** Modes `blocking`, `nonblocking`, `overlap`, `overlap_test`; grids 4x4x3 and 1x1x48; `shm` and `rc`.
+- Mode names: all four exchange the same halos and differ only in where compute goes. `nonblocking` posts Isend/Irecv and immediately calls Waitall, then computes, so it does not overlap anything. It is the control. `overlap` puts the interior compute between the post and the Waitall.
+- Every face is above `UCX_RNDV_THRESH` (8 KB), so it uses the rendezvous protocol (RTS -> RTR -> RDMA put -> FIN). Each handshake step is processed only while one side is inside an MPI call, and UCX has no progress thread by default. During the interior compute neither side calls MPI, so the handshake is expected to stall until Waitall. Prediction: `overlap` has about the same `wait` as `nonblocking` (no real overlap), and `overlap_test` (periodic `MPI_Testall`) shows a clearly smaller `wait`. Once the RDMA starts, the HCA finishes it without the CPU, so a few Test calls should be enough. Eager messages (below 8 KB) would overlap without Test.
+- The hideable amount is bounded by the interior compute: at N = 240, 0.18 ms of compute against 0.64 ms of communication; at N = 960, compute is much larger than communication.
+- The cost of overlap is the separate boundary pass (`comp_bd`) and worse cache use. Check whether it eats the gain.
+- `shm` vs `rc`: intra-node rendezvous uses shared memory in one case and HCA RDMA in the other, which may depend on progress differently.
+
+**E (packing).** Grids 48x1x1 (x-faces only, fully strided, worst case), 1x48x1 (y-faces, one contiguous row block per z-plane), 1x1x48 (z-faces, contiguous), 4x4x3 (mixed). Manual vs datatype.
+- z-faces: the datatype path might avoid the copy (zero-copy) and beat manual packing.
+- x-faces: expensive either way, and the datatype path may be slower than manual packing.
+- Plot pack/unpack time against wait time, by face direction.
+
+**F (stretch).** An irregular decomposition for prime P (for example, 47 as 48 blocks with one rank taking two), compared with 1x1x47 and with dropping one rank.
+
+**Storyline.** A shows that shape sets the communication volume and the memory behavior. B covers the case where P limits the shape. C shows that the same volume costs differently depending on which level it lands on, and that the transport sets those costs. D and E ask whether communication can be hidden or made cheaper. S provides the scaling and efficiency numbers.
+
 ## 6. Methodology
 
 - Baseline: multiple nodes, undersubscribed, one rank per CCD (16 ranks per node), as the instructor suggested.
