@@ -107,7 +107,7 @@ Common setup: 3 nodes x 16 ranks (one per CCD), `shm` transport unless stated, 3
 - N = 480 at P = 48 has two arrays of about 37 MB per rank, right at the 32 MB L3 of a CCD, so superlinear compute speedup is possible there. That is the "cache or communication" question in concrete form.
 - N = 240 at large P should be communication-bound with low efficiency.
 
-**A (shape, the core experiment).** All 45 ordered factorizations of 48, N = 240 and 960. Group them as 1D (slab), 2D (pencil), 3D (block) decompositions.
+**A (shape, the core experiment).** All 45 ordered factorizations of 48, N = 240, 480 and 960 (480 puts two arrays per rank at about 37 MB, at the edge of the 32 MB L3). Group them as 1D (slab), 2D (pencil), 3D (block) decompositions.
 - N = 240 (communication-bound): 1x1x48 sends 922 KB per rank in 2 messages, 4x4x3 sends 211 KB in 6. With alpha around 1 us, the latency term is small, so the slab should be clearly slower. A latency/bandwidth crossover would need a much smaller N.
 - N = 960 (compute-bound): compute is about 20 ms per step per rank, communication 1-2 ms, so shape matters mostly through memory behavior. 48x1x1 leaves 20 cells in the unit-stride direction (short inner loops, poor vectorization and prefetch) and strided x-faces. 1x1x48 and 48x1x1 have the same surface but may differ a lot (orientation effect).
 - Analysis: measured `t_step` against halo bytes and message count, with the model `T = T_comp + T_comm` (including the node-bandwidth term) on top.
