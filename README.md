@@ -216,10 +216,17 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - N = 240: P = 47 takes 0.71 ms against 0.38 ms at P = 40 (2x4x5) or 48. Using 40 ranks instead of 47 is 1.9x faster.
 - N = 960: P = 47 takes 45.5 ms against 30.0 ms at P = 45 (3x3x5). The prediction that the prime penalty almost disappears at N = 960 (about 2%) was wrong; it is about 1.5x, from both `wait` (17 vs 6 ms) and compute (33 vs 26 ms; the slab orientation effect from A).
 
+**2026-11-08, job 12259404 (C, placement x transport).** 108 runs, all PASS. Plot: `figs/C_placement.png`.
+- `shm`: placement matters where the extra surface is. With 1x1x48 at N = 240, cyclic is 2.1x slower than block (1.43 vs 0.68 ms); with 4x4x3 it is 1.3x. At N = 960, 4x4x3 does not care (29.2 vs 29.6 ms), and 1x1x48 is 1.2x slower under cyclic.
+- `rc`: block and cyclic are close for the slabs (1.34 vs 1.43 ms), so the hierarchy mostly disappears when intra-node traffic goes through the HCA. For 4x4x3 at N = 240, cyclic is even faster than block (0.52 vs 0.85 ms).
+- Transport, block placement, N = 240: `shm` is about 2x faster than `rc` (4x4x3 0.40 vs 0.85 ms; 1x1x48 0.68 vs 1.34 ms). At N = 960 the difference is small except for the slabs.
+- Packed (8 ranks per CCD): 2.2-4.4x slower at N = 240 and about 3x slower at N = 960, mostly compute (84 vs 25 ms for 4x4x3), because 8 ranks share one L3 and one CCD's memory bandwidth. This is why the baseline is undersubscribed.
+- Even with block placement under `shm`, 1x1x48 is 1.7x slower than 4x4x3 at N = 240, although its extra surface stays inside the node: part of it crosses sockets, where shared memory gives only about 3 GB/s.
+
 ## 8b. Status and next steps (update as things finish)
 
-- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403). Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`.
-- Queued in order on eng-instruction: C 12259404, D 12259405, E 12259406, then S2 12260302 (`afterany` on E).
+- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404). Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`.
+- Queued in order on eng-instruction: D 12259405, E 12259406, then S2 12260302 (`afterany` on E).
 - S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
 - After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
 - Remaining analysis: alpha-beta (+ node-bandwidth) model on A; D overlap table (`wait` per mode, shm vs rc); E pack cost by face direction.

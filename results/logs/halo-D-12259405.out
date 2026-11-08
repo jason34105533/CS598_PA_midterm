@@ -1,0 +1,18 @@
+job 12259405 on ccc[0391-0393]  (Sun Nov  8 17:20:35 CST 2026)
+OMPI_MCA_btl=^vader,tcp,openib
+OMPI_MCA_btl_tcp_if_include=hsn0
+OMPI_MCA_hwloc_base_binding_policy=core
+OMPI_MCA_plm_slurm_args=--external-launcher
+OMPI_MCA_pml=ucx
+OMPI_MCA_ras_base_verbose=10
+OMPI_MCA_rmaps_base_mapping_policy=numa
+UCX_IB_GID_INDEX=3
+UCX_IB_TRAFFIC_CLASS=104
+UCX_MAX_RNDV_RAILS=1
+UCX_MEMTYPE_CACHE=n
+UCX_NET_DEVICES=mlx5_0:1
+UCX_RCACHE_ENABLE=y
+UCX_RNDV_SCHEME=put_zcopy
+UCX_RNDV_THRESH=intra:inf,inter:8K
+UCX_SOCKADDR_TLS_PRIORITY=rdmacm
+UCX_TLS=sm,self,rc
