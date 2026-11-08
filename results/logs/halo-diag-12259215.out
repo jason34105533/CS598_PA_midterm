@@ -1,0 +1,230 @@
+job 12259215 on ccc[0391-0392]  (Sun Nov  8 15:58:15 CST 2026)
+OMPI_MCA_btl=^vader,tcp,openib
+OMPI_MCA_btl_tcp_if_include=hsn0
+OMPI_MCA_hwloc_base_binding_policy=core
+OMPI_MCA_plm_slurm_args=--external-launcher
+OMPI_MCA_pml=ucx
+OMPI_MCA_ras_base_verbose=10
+OMPI_MCA_rmaps_base_mapping_policy=numa
+UCX_IB_GID_INDEX=3
+UCX_IB_TRAFFIC_CLASS=104
+UCX_MAX_RNDV_RAILS=1
+UCX_MEMTYPE_CACHE=n
+UCX_NET_DEVICES=mlx5_0:1
+UCX_RCACHE_ENABLE=y
+UCX_RNDV_SCHEME=put_zcopy
+UCX_RNDV_THRESH=8192
+UCX_SOCKADDR_TLS_PRIORITY=rdmacm
+UCX_TLS=sm,self,rc
+== compute node: ptrace_scope 3
+      1 #      Transport: dc_mlx5
+      1 #      Transport: posix
+      1 #      Transport: rc_mlx5
+      1 #      Transport: rc_verbs
+      1 #      Transport: self
+      1 #      Transport: sysv
+      3 #      Transport: tcp
+      1 #      Transport: ud_mlx5
+      1 #      Transport: ud_verbs
+== shm: UCX_TLS=sm,self,rc UCX_RNDV_THRESH=8192
+[1794175101.181157] [ccc0391:2181344:0]   |    0..8184 | eager short                              | self/memory      |
+[1794175101.181157] [ccc0391:2181344:0]   | 8185..8191 | multi-frag eager copy-in copy-out        | self/memory      |
+[1794175101.181157] [ccc0391:2181344:0]   |    8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.181291] [ccc0391:2181344:0]   |    0..8184 | eager short                              | self/memory      |
+[1794175101.181291] [ccc0391:2181344:0]   | 8185..8191 | multi-frag eager copy-in copy-out        | self/memory      |
+[1794175101.181291] [ccc0391:2181344:0]   |    8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.181658] [ccc0391:2181344:0]   |    0..8184 | eager short                              | self/memory      |
+[1794175101.181658] [ccc0391:2181344:0]   | 8185..8191 | multi-frag eager copy-in copy-out        | self/memory      |
+[1794175101.181658] [ccc0391:2181344:0]   |    8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.181128] [ccc0391:2181343:0]   |    0..8184 | eager short                              | self/memory      |
+[1794175101.181128] [ccc0391:2181343:0]   | 8185..8191 | multi-frag eager copy-in copy-out        | self/memory      |
+[1794175101.181128] [ccc0391:2181343:0]   |    8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.181265] [ccc0391:2181343:0]   |    0..8184 | eager short                              | self/memory      |
+[1794175101.181265] [ccc0391:2181343:0]   | 8185..8191 | multi-frag eager copy-in copy-out        | self/memory      |
+[1794175101.181265] [ccc0391:2181343:0]   |    8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.181652] [ccc0391:2181343:0]   |    0..8184 | eager short                              | self/memory      |
+[1794175101.181652] [ccc0391:2181343:0]   | 8185..8191 | multi-frag eager copy-in copy-out        | self/memory      |
+[1794175101.181652] [ccc0391:2181343:0]   |    8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.188812] [ccc0391:2181343:0]   |    0..92 | eager short                              | sysv/memory      |
+[1794175101.188812] [ccc0391:2181343:0]   | 93..8191 | eager copy-in copy-out                   | sysv/memory      |
+[1794175101.188812] [ccc0391:2181343:0]   |  8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.188926] [ccc0391:2181343:0]   |    0..92 | eager short                              | sysv/memory      |
+[1794175101.188926] [ccc0391:2181343:0]   | 93..8191 | eager copy-in copy-out                   | sysv/memory      |
+[1794175101.188926] [ccc0391:2181343:0]   |  8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.189285] [ccc0391:2181343:0]   |    0..92 | eager short                              | sysv/memory      |
+[1794175101.189285] [ccc0391:2181343:0]   | 93..8191 | eager copy-in copy-out                   | sysv/memory      |
+[1794175101.189285] [ccc0391:2181343:0]   |  8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+           8        0.113        0.115      0.071      0.070
+          16        0.113        0.114      0.142      0.141
+          32        0.141        0.143      0.227      0.223
+          64        0.135        0.137      0.474      0.467
+         128        0.189        0.192      0.677      0.666
+         256        0.213        0.213      1.203      1.202
+         512        0.243        0.244      2.104      2.098
+        1024        0.288        0.289      3.550      3.542
+        2048        0.308        0.311      6.640      6.594
+        4096        0.402        0.403     10.201     10.169
+[1794175101.275684] [ccc0391:2181343:0]   | rendezvous data send(fast-completion) from host memory to host |
+        8192        8.160        8.173      1.004      1.002
+       16384       13.022       13.031      1.258      1.257
+       32768        7.017        7.026      4.670      4.664
+       65536       11.308       11.318      5.795      5.791
+      131072       19.514       19.529      6.717      6.712
+      262144       35.947       35.969      7.293      7.288
+      524288       68.353       68.368      7.670      7.669
+     1048576      134.193      134.267      7.814      7.810
+     2097152      265.327      265.394      7.904      7.902
+     4194304      526.456      526.923      7.967      7.960
+[1794175101.188786] [ccc0391:2181344:0]   |    0..92 | eager short                              | sysv/memory      |
+[1794175101.188786] [ccc0391:2181344:0]   | 93..8191 | eager copy-in copy-out                   | sysv/memory      |
+[1794175101.188786] [ccc0391:2181344:0]   |  8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.188908] [ccc0391:2181344:0]   |    0..92 | eager short                              | sysv/memory      |
+[1794175101.188908] [ccc0391:2181344:0]   | 93..8191 | eager copy-in copy-out                   | sysv/memory      |
+[1794175101.188908] [ccc0391:2181344:0]   |  8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.189281] [ccc0391:2181344:0]   |    0..92 | eager short                              | sysv/memory      |
+[1794175101.189281] [ccc0391:2181344:0]   | 93..8191 | eager copy-in copy-out                   | sysv/memory      |
+[1794175101.189281] [ccc0391:2181344:0]   |  8K..inf | (?) rendezvous zero-copy write to remote | rc_mlx5/mlx5_0:1 |
+[1794175101.276359] [ccc0391:2181344:0]   | rendezvous data send(fast-completion) from host memory to host |
+pingpong: rank0 ccc0392.campuscluster.illinois.edu cpu 0  <->  rank1 ccc0392.campuscluster.illinois.edu cpu 64
+UCX_TLS=sm,self,rc  trials=7
+       bytes     min (us)  median (us)   GB/s min   GB/s med
+           8        0.774        0.776      0.010      0.010
+          16        0.773        0.776      0.021      0.021
+          32        1.086        1.160      0.029      0.028
+          64        1.099        1.114      0.058      0.057
+         128        1.183        1.261      0.108      0.102
+         256        1.292        1.294      0.198      0.198
+         512        1.589        1.595      0.322      0.321
+        1024        2.037        2.044      0.503      0.501
+        2048        3.500        3.511      0.585      0.583
+        4096        5.207        5.226      0.787      0.784
+        8192        7.239        7.252      1.132      1.130
+       16384        9.626        9.656      1.702      1.697
+       32768       14.699       14.704      2.229      2.228
+       65536       24.193       24.201      2.709      2.708
+      131072       41.659       41.668      3.146      3.146
+      262144       17.939       27.372     14.613      9.577
+      524288       50.357       50.385     10.411     10.406
+     1048576       96.444       96.571     10.872     10.858
+     2097152      185.958      186.120     11.278     11.268
+     4194304      364.798      365.113     11.498     11.488
+pingpong: rank0 ccc0391.campuscluster.illinois.edu cpu 0  <->  rank1 ccc0392.campuscluster.illinois.edu cpu 0
+UCX_TLS=sm,self,rc  trials=7
+       bytes     min (us)  median (us)   GB/s min   GB/s med
+           8        2.737        2.751      0.003      0.003
+          16        2.783        2.789      0.006      0.006
+          32        2.936        2.943      0.011      0.011
+          64        3.265        3.282      0.020      0.019
+         128        3.331        3.341      0.038      0.038
+         256        3.914        3.923      0.065      0.065
+         512        4.264        4.285      0.120      0.119
+        1024        4.560        4.568      0.225      0.224
+        2048        5.727        5.741      0.358      0.357
+        4096        7.443        7.462      0.550      0.549
+        8192       14.383       14.434      0.570      0.568
+       16384       17.821       17.955      0.919      0.913
+       32768       25.844       25.872      1.268      1.267
+       65536       37.438       37.445      1.751      1.750
+      131072       60.772       60.796      2.157      2.156
+      262144      107.502      107.517      2.439      2.438
+      524288      200.715      200.783      2.612      2.611
+     1048576      387.181      387.261      2.708      2.708
+     2097152      760.144      760.423      2.759      2.758
+     4194304     1507.789     1507.982      2.782      2.781
+== shm_eager: UCX_TLS=sm,self,rc UCX_RNDV_THRESH=intra:inf,inter:8K
+[1794175128.427875] [ccc0391:2181417:0]   |   0..8184 | eager short                       | self/memory |
+[1794175128.427875] [ccc0391:2181417:0]   | 8185..inf | multi-frag eager copy-in copy-out | self/memory |
+[1794175128.428002] [ccc0391:2181417:0]   |   0..8184 | eager short                       | self/memory       |
+[1794175128.428002] [ccc0391:2181417:0]   | 8185..inf | multi-frag eager copy-in copy-out | self/memory       |
+[1794175128.428410] [ccc0391:2181417:0]   |   0..8184 | eager short                       | self/memory |
+[1794175128.428410] [ccc0391:2181417:0]   | 8185..inf | multi-frag eager copy-in copy-out | self/memory |
+[1794175128.434575] [ccc0391:2181417:0]   |     0..92 | eager short                       | sysv/memory |
+[1794175128.434575] [ccc0391:2181417:0]   |  93..8248 | eager copy-in copy-out            | sysv/memory |
+[1794175128.434575] [ccc0391:2181417:0]   | 8249..inf | multi-frag eager copy-in copy-out | sysv/memory |
+[1794175128.427875] [ccc0391:2181418:0]   |   0..8184 | eager short                       | self/memory |
+[1794175128.427875] [ccc0391:2181418:0]   | 8185..inf | multi-frag eager copy-in copy-out | self/memory |
+[1794175128.428002] [ccc0391:2181418:0]   |   0..8184 | eager short                       | self/memory       |
+[1794175128.428002] [ccc0391:2181418:0]   | 8185..inf | multi-frag eager copy-in copy-out | self/memory       |
+[1794175128.428413] [ccc0391:2181418:0]   |   0..8184 | eager short                       | self/memory |
+[1794175128.428413] [ccc0391:2181418:0]   | 8185..inf | multi-frag eager copy-in copy-out | self/memory |
+[1794175128.434578] [ccc0391:2181418:0]   |     0..92 | eager short                       | sysv/memory |
+[1794175128.434578] [ccc0391:2181418:0]   |  93..8248 | eager copy-in copy-out            | sysv/memory |
+[1794175128.434578] [ccc0391:2181418:0]   | 8249..inf | multi-frag eager copy-in copy-out | sysv/memory |
+[1794175128.434681] [ccc0391:2181417:0]   |     0..92 | eager short                       | sysv/memory       |
+[1794175128.434681] [ccc0391:2181417:0]   |  93..8248 | eager copy-in copy-out            | sysv/memory       |
+[1794175128.434681] [ccc0391:2181417:0]   | 8249..inf | multi-frag eager copy-in copy-out | sysv/memory       |
+[1794175128.435061] [ccc0391:2181417:0]   |     0..92 | eager short                       | sysv/memory |
+[1794175128.435061] [ccc0391:2181417:0]   |  93..8248 | eager copy-in copy-out            | sysv/memory |
+[1794175128.435061] [ccc0391:2181417:0]   | 8249..inf | multi-frag eager copy-in copy-out | sysv/memory |
+           8        0.115        0.117      0.070      0.068
+          16        0.115        0.116      0.139      0.138
+          32        0.143        0.145      0.223      0.221
+          64        0.139        0.142      0.460      0.452
+         128        0.192        0.196      0.666      0.652
+         256        0.214        0.216      1.195      1.186
+         512        0.241        0.244      2.126      2.101
+        1024        0.284        0.286      3.603      3.576
+        2048        0.306        0.307      6.703      6.662
+        4096        0.403        0.405     10.168     10.123
+        8192        0.583        0.586     14.044     13.986
+       16384        1.062        1.066     15.423     15.368
+       32768        1.780        1.783     18.413     18.382
+       65536        3.073        3.077     21.330     21.296
+      131072        5.585        5.599     23.467     23.410
+      262144       11.082       11.139     23.655     23.535
+      524288       22.846       22.867     22.949     22.928
+     1048576       43.073       43.115     24.344     24.320
+     2097152       82.321       82.393     25.475     25.453
+     4194304      160.719      160.819     26.097     26.081
+[1794175128.434684] [ccc0391:2181418:0]   |     0..92 | eager short                       | sysv/memory       |
+[1794175128.434684] [ccc0391:2181418:0]   |  93..8248 | eager copy-in copy-out            | sysv/memory       |
+[1794175128.434684] [ccc0391:2181418:0]   | 8249..inf | multi-frag eager copy-in copy-out | sysv/memory       |
+[1794175128.435065] [ccc0391:2181418:0]   |     0..92 | eager short                       | sysv/memory |
+[1794175128.435065] [ccc0391:2181418:0]   |  93..8248 | eager copy-in copy-out            | sysv/memory |
+[1794175128.435065] [ccc0391:2181418:0]   | 8249..inf | multi-frag eager copy-in copy-out | sysv/memory |
+pingpong: rank0 ccc0392.campuscluster.illinois.edu cpu 0  <->  rank1 ccc0392.campuscluster.illinois.edu cpu 64
+UCX_TLS=sm,self,rc  trials=7
+       bytes     min (us)  median (us)   GB/s min   GB/s med
+           8        0.784        0.786      0.010      0.010
+          16        0.784        0.785      0.020      0.020
+          32        1.101        1.151      0.029      0.028
+          64        1.138        1.139      0.056      0.056
+         128        1.236        1.268      0.104      0.101
+         256        1.295        1.299      0.198      0.197
+         512        1.615        1.616      0.317      0.317
+        1024        2.057        2.063      0.498      0.496
+        2048        3.537        3.542      0.579      0.578
+        4096        5.235        5.241      0.782      0.782
+        8192        9.494        9.616      0.863      0.852
+       16384       16.091       16.110      1.018      1.017
+       32768       28.850       28.894      1.136      1.134
+       65536       22.184       22.279      2.954      2.942
+      131072       42.754       42.891      3.066      3.056
+      262144       83.689       84.029      3.132      3.120
+      524288      165.550      166.272      3.167      3.153
+     1048576      331.744      331.831      3.161      3.160
+     2097152      659.956      660.383      3.178      3.176
+     4194304     1268.879     1400.458      3.306      2.995
+pingpong: rank0 ccc0391.campuscluster.illinois.edu cpu 0  <->  rank1 ccc0392.campuscluster.illinois.edu cpu 0
+UCX_TLS=sm,self,rc  trials=7
+       bytes     min (us)  median (us)   GB/s min   GB/s med
+           8        2.754        2.786      0.003      0.003
+          16        2.783        2.786      0.006      0.006
+          32        2.942        2.946      0.011      0.011
+          64        3.267        3.280      0.020      0.020
+         128        3.337        3.347      0.038      0.038
+         256        3.922        3.928      0.065      0.065
+         512        4.244        4.256      0.121      0.120
+        1024        4.563        4.569      0.224      0.224
+        2048        5.730        5.741      0.357      0.357
+        4096        7.458        7.467      0.549      0.549
+        8192       15.371       15.406      0.533      0.532
+       16384       19.519       19.533      0.839      0.839
+       32768       27.776       27.778      1.180      1.180
+       65536       38.886       38.912      1.685      1.684
+      131072       62.293       62.351      2.104      2.102
+      262144      109.079      109.105      2.403      2.403
+      524288      202.478      202.554      2.589      2.588
+     1048576      389.218      389.266      2.694      2.694
+     2097152      762.284      762.409      2.751      2.751
+     4194304     1509.561     1509.891      2.778      2.778

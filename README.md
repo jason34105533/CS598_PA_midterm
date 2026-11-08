@@ -159,7 +159,7 @@ Common setup: 3 nodes x 16 ranks (one per CCD), `shm` transport unless stated, 3
 - Baseline: 3 nodes x 16 ranks (one per CCD) = P = 48 (multiple nodes, undersubscribed). Experiment B uses P = 36..48, which includes the primes 37, 41, 43 and 47. For P < 48, Slurm spreads ranks evenly over the nodes (37 -> 13/12/12).
 - Problem sizes: N = 240 (local 60x60x80 at 4x4x3, about 2.3 MB per array, fits in L3, so communication matters more) and N = 960 (local 240x240x320, about 147 MB per array, memory-bound compute dominates). 240 and 960 are divisible by every factor of 48, so the A/C/D/E grids have even subdomains; uneven splits show up only in B and S.
 - Steps per run: about 1e9 cell updates per rank, clamped to 20..1000 (`steps_for` in `scripts/common.sh`).
-- MPI transport: the site environment sets `UCX_TLS=rc` (plus `OMPI_MCA_pml=ucx`, `UCX_RNDV_THRESH=8192`, `UCX_RNDV_SCHEME=put_zcopy`). With rc only, every message, including one between two cores of the same CCD, goes through the HCA. All experiments use `shm` (`UCX_TLS=sm,self,rc`: shared memory within a node, rc between nodes). pingpong, C and D run under both, as an extra dimension (`set_tls shm|rc` in `scripts/common.sh`; the `tls` CSV column records it).
+- MPI transport: the site environment sets `UCX_TLS=rc` (plus `OMPI_MCA_pml=ucx`, `UCX_RNDV_THRESH=8192`, `UCX_RNDV_SCHEME=put_zcopy`). With rc only, every message, including one between two cores of the same CCD, goes through the HCA. All experiments use `shm` (`UCX_TLS=sm,self,rc` plus `UCX_RNDV_THRESH=intra:inf,inter:8K`: every intra-node message is an eager copy through shared memory, inter-node messages use rc). The threshold is needed because CMA is disabled on the nodes (`ptrace_scope=3`), so without it intra-node rendezvous still goes through the HCA. pingpong, C and D run under both, as an extra dimension (`set_tls shm|rc` in `scripts/common.sh`; the `tls` CSV column records it).
 - Launch: every `srun` needs PMIx (`SLURM_MPI_TYPE=pmix`, set in `scripts/common.sh`); without it each rank starts as a singleton.
 
 ## 8a. Measurement log
@@ -176,6 +176,17 @@ Common setup: 3 nodes x 16 ranks (one per CCD), `shm` transport unless stated, 3
 | other node | 2.79 | 15.1 | 2.7 | 11.2 |
 
 Intra-node latency of 1.2-1.4 us, with bandwidth that saturates near the 100 Gb/s link rate, means that intra-node messages use the HCA (rc loopback), not shared memory. This is why the transport became an experiment dimension.
+
+**2026-11-08, jobs 12258964 and 12259215 (pingpong with shared memory).** `UCX_TLS=sm,self,rc` alone moves only eager messages (up to 8 KB) to shared memory: 0.11 us within a CCD instead of 1.36 us. Above 8 KB, `UCX_PROTO_INFO` shows rendezvous over `rc_mlx5`, so bandwidth stays about 8 GB/s. Adding `UCX_RNDV_THRESH=intra:inf` makes intra-node traffic eager:
+
+| Pair, one-way | 32 KB | 512 KB | 4 MB |
+|---|---|---|---|
+| same CCD, rc | 4.7 GB/s | 7.7 GB/s | 8.0 GB/s |
+| same CCD, shm (intra eager) | 18.4 GB/s | 23.0 GB/s | 26.1 GB/s |
+| other socket, rc | 2.2 GB/s | 10.4 GB/s | 11.5 GB/s |
+| other socket, shm (intra eager) | 1.1 GB/s | 3.2 GB/s | 3.3 GB/s |
+
+Within a socket, shared memory is about 3x faster than the HCA. Across sockets, it is about 3x slower. So in `shm` mode the cheap level is the socket, not the node. Inter-node bandwidth between 128 KB and 4 MB was about 2.7 GB/s in most runs and about 10 GB/s in one; 8 MB and above reach about 11 GB/s.
 
 ## 9. Code and usage
 
