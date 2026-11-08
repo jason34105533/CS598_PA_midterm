@@ -241,13 +241,19 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - Halo volume plus the x-split penalty explains most of the shape effect. The effective bandwidth with all 48 ranks exchanging at once (0.65-1.3 GB/s per rank) is well below the two-point pingpong numbers (3-25 GB/s intra-node, 2.7 GB/s inter-node), so a two-point alpha-beta model underestimates the communication time.
 - Off-node bytes per node hardly change across the 45 grids (0.61-0.81 MB at N = 240) while intra-node bytes vary 8x. With block placement, inter-node traffic is set by the node-level decomposition (Section 3), not by the rank grid.
 
+**2026-11-08, job 12259406 (E, packing, `shm`).** 48 runs, all PASS. Plot: `figs/E_packing.png`.
+- N = 240: derived datatypes are equal or slower for every face direction (y-faces +21%, z-faces +18%, 4x4x3 +5%, x-faces equal). Even fully contiguous z-faces do not gain at this size.
+- N = 960: datatypes are faster for the slabs (y-faces -13%, z-faces -11%, x-faces -3%) and equal for 4x4x3. Manual packing of a contiguous z-face still copies about 7.6 ms per step, which the datatype path avoids.
+- Strided x-faces are the expensive case either way: with manual packing, pack + unpack is 32 ms of the 59 ms step at N = 960, more than the communication itself.
+- Against the predictions: z-faces gain from datatypes only at large N; x-faces are expensive as expected, but datatypes are not slower than manual packing there.
+
 ## 8b. Status and next steps (update as things finish)
 
-- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405). Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`.
-- Queued in order on eng-instruction: E 12259406, then S2 12260302 (`afterany` on E).
+- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405), E (12259406). Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`, `figs/E_packing.png`, `figs/A_model.png`.
+- Queued: S2 12260302.
 - S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
 - After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
-- Remaining analysis: E pack cost by face direction; S2 vs S comparison plot.
+- Remaining analysis: S2 vs S comparison plot.
 - Decisions made: P = 48 on 3 nodes; N = 240/480/960 in A; `shm` = intra-node eager; pingpong, C and D under both `shm` and `rc`; keep mode name `nonblocking` (the no-overlap control).
 
 ## 9. Code and usage

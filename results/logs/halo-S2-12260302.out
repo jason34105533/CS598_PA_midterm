@@ -1,0 +1,39 @@
+job 12260302 on ccc[0391-0393]  (Sun Nov  8 17:35:35 CST 2026)
+OMPI_MCA_btl=^vader,tcp,openib
+OMPI_MCA_btl_tcp_if_include=hsn0
+OMPI_MCA_hwloc_base_binding_policy=core
+OMPI_MCA_plm_slurm_args=--external-launcher
+OMPI_MCA_pml=ucx
+OMPI_MCA_ras_base_verbose=10
+OMPI_MCA_rmaps_base_mapping_policy=numa
+UCX_IB_GID_INDEX=3
+UCX_IB_TRAFFIC_CLASS=104
+UCX_MAX_RNDV_RAILS=1
+UCX_MEMTYPE_CACHE=n
+UCX_NET_DEVICES=mlx5_0:1
+UCX_RCACHE_ENABLE=y
+UCX_RNDV_SCHEME=put_zcopy
+UCX_RNDV_THRESH=intra:inf,inter:8K
+UCX_SOCKADDR_TLS_PRIORITY=rdmacm
+UCX_TLS=sm,self,rc
+ALT=0,64,8,72,16,80,24,88,32,96,40,104,48,112,56,120
+halo3d  N=480  grid=1x1x2  P=2  nodes=1  mode=nonblocking  pack=manual  steps=20
+  time/step 38.482 ms   (avg | max over ranks, ms)
+    pack         0.1486 |    0.1632
+    post         0.4908 |    0.5820
+    wait         1.4295 |    1.5534
+    unpack       0.1751 |    0.1751
+    comp_int    36.2344 |   36.2560
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 1843200; total off-node 0, same-node 3686400, same-CCD 0
+  local cells min 55296000 max 55296000   rel_err 1.657e-15  PASS
+halo3d  N=480  grid=1x1x2  P=2  nodes=1  mode=nonblocking  pack=manual  steps=20
+  time/step 38.322 ms   (avg | max over ranks, ms)
+    pack         0.1499 |    0.1618
+    post         0.4525 |    0.4899
+    wait         1.3848 |    1.4112
+    unpack       0.1743 |    0.2265
+    comp_int    36.1544 |   36.2125
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 1843200; total off-node 0, same-node 3686400, same-CCD 0
+  local cells min 55296000 max 55296000   rel_err 1.657e-15  PASS
