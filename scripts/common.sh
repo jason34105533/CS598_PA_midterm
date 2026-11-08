@@ -8,6 +8,21 @@ command -v mpicc >/dev/null || { echo "mpicc not found: fix module names in scri
 # Without this, srun starts every rank as an MPI singleton (size 1).
 export SLURM_MPI_TYPE=pmix
 
+# UCX transports. The site default is UCX_TLS=rc, which sends even intra-node
+# messages through the InfiniBand HCA (loopback): about 1.3 us and 8 GB/s within
+# one CCD. "shm" adds the shared-memory transports, so intra-node messages stay
+# in memory and only inter-node ones use rc. All experiments use shm unless
+# they loop over both (pingpong, C).
+#   set_tls shm|rc
+set_tls() {
+    case $1 in
+        shm) export UCX_TLS=sm,self,rc ;;
+        rc)  export UCX_TLS=rc ;;
+        *)   echo "set_tls: unknown mode $1"; exit 1 ;;
+    esac
+}
+set_tls "${TLS_MODE:-shm}"
+
 mkdir -p results/logs
 REPS=${REPS:-3}
 

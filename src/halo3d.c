@@ -485,13 +485,13 @@ int main(int argc, char **argv)
             else {
                 fseek(fp, 0, SEEK_END);
                 if (ftell(fp) == 0) {
-                    fprintf(fp, "tag,jobid,mode,pack,N,Px,Py,Pz,P,nodes,steps,t_step");
+                    fprintf(fp, "tag,tls,jobid,mode,pack,N,Px,Py,Pz,P,nodes,steps,t_step");
                     for (int p = 0; p < T_NUM; p++) fprintf(fp, ",%s_avg,%s_max", tname[p], tname[p]);
                     fprintf(fp, ",halo_bytes_max,msgs_max,bytes_offnode,bytes_samenode,bytes_sameccd,"
                                 "cells_min,cells_max,rel_err\n");
                 }
-                const char *job = getenv("SLURM_JOB_ID");
-                fprintf(fp, "%s,%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%.6e", o.tag, job ? job : "-",
+                const char *job = getenv("SLURM_JOB_ID"), *tls = getenv("UCX_TLS");
+                fprintf(fp, "%s,%s,%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%.6e", o.tag, tls ? tls : "-", job ? job : "-",
                         mode_name[o.mode], pack_name[o.pack], o.N, o.P[0], o.P[1], o.P[2], size_,
                         nodes, o.steps, tstep);
                 for (int p = 0; p < T_NUM; p++) fprintf(fp, ",%.6e,%.6e", tavg[p], tmax[p]);

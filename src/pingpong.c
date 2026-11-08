@@ -3,7 +3,11 @@
  * fit the alpha-beta model T(m) = alpha + m * beta for a given placement
  * (same CCD, other CCD, other socket, other node).
  *
- * usage: pingpong [--max-bytes B] [--csv FILE] [--tag STR]
+ * Each message size is timed in TRIALS separate trials of `reps` round trips;
+ * the minimum and the median over trials are reported (the mean of a single
+ * trial was too noisy at mid sizes).
+ *
+ * usage: pingpong [--max-bytes B] [--trials T] [--csv FILE] [--tag STR]
  */
 #define _GNU_SOURCE
 #include <mpi.h>
@@ -13,6 +17,12 @@
 #ifdef __linux__
 #include <sched.h>
 #endif
+
+static int cmp_dbl(const void *a, const void *b)
+{
+    double x = *(const double *)a, y = *(const double *)b;
+    return (x > y) - (x < y);
+}
 
 int main(int argc, char **argv)
 {
@@ -26,9 +36,11 @@ int main(int argc, char **argv)
     }
 
     long max_bytes = 1L << 24;
+    int trials = 7;
     const char *csv = NULL, *tag = "-";
     for (int a = 1; a + 1 < argc; a += 2) {
         if (!strcmp(argv[a], "--max-bytes")) max_bytes = atol(argv[a + 1]);
+        else if (!strcmp(argv[a], "--trials")) trials = atoi(argv[a + 1]);
         else if (!strcmp(argv[a], "--csv")) csv = argv[a + 1];
         else if (!strcmp(argv[a], "--tag")) tag = argv[a + 1];
     }
@@ -46,7 +58,9 @@ int main(int argc, char **argv)
         MPI_Recv(peer_host, MPI_MAX_PROCESSOR_NAME, MPI_CHAR, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         MPI_Recv(&peer_cpu, 1, MPI_INT, 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         printf("pingpong: rank0 %s cpu %d  <->  rank1 %s cpu %d\n", host, cpu, peer_host, peer_cpu);
-        printf("%12s %14s %12s\n", "bytes", "one-way (us)", "GB/s");
+        const char *tls = getenv("UCX_TLS");
+        printf("UCX_TLS=%s  trials=%d\n", tls ? tls : "(unset)", trials);
+        printf("%12s %12s %12s %10s %10s\n", "bytes", "min (us)", "median (us)", "GB/s min", "GB/s med");
     }
 
     char *buf = malloc(max_bytes > 0 ? max_bytes : 1);
@@ -56,34 +70,45 @@ int main(int argc, char **argv)
         fp = fopen(csv, "a");
         if (fp) {
             fseek(fp, 0, SEEK_END);
-            if (ftell(fp) == 0) fprintf(fp, "tag,jobid,host0,cpu0,host1,cpu1,bytes,t_oneway,gbps\n");
+            if (ftell(fp) == 0)
+                fprintf(fp, "tag,tls,jobid,host0,cpu0,host1,cpu1,bytes,reps,trials,"
+                            "t_min,t_med,gbps_min,gbps_med\n");
         }
     }
 
+    double *t = malloc(sizeof(double) * (trials > 0 ? trials : 1));
     for (long m = 8; m <= max_bytes; m *= 2) {
         int reps = (int)(((1L << 28) / m) > 2000 ? 2000 : ((1L << 28) / m));
         if (reps < 20) reps = 20;
-        double t0 = 0;
-        for (int it = -10; it < reps; it++) { /* 10 warmup iterations */
-            if (it == 0) { MPI_Barrier(MPI_COMM_WORLD); t0 = MPI_Wtime(); }
-            if (rank == 0) {
-                MPI_Send(buf, (int)m, MPI_CHAR, 1, 2, MPI_COMM_WORLD);
-                MPI_Recv(buf, (int)m, MPI_CHAR, 1, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            } else if (rank == 1) {
-                MPI_Recv(buf, (int)m, MPI_CHAR, 0, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-                MPI_Send(buf, (int)m, MPI_CHAR, 0, 2, MPI_COMM_WORLD);
+        for (int tr = 0; tr < trials; tr++) {
+            double t0 = 0;
+            for (int it = -10; it < reps; it++) { /* 10 warmup iterations per trial */
+                if (it == 0) { MPI_Barrier(MPI_COMM_WORLD); t0 = MPI_Wtime(); }
+                if (rank == 0) {
+                    MPI_Send(buf, (int)m, MPI_CHAR, 1, 2, MPI_COMM_WORLD);
+                    MPI_Recv(buf, (int)m, MPI_CHAR, 1, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                } else if (rank == 1) {
+                    MPI_Recv(buf, (int)m, MPI_CHAR, 0, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                    MPI_Send(buf, (int)m, MPI_CHAR, 0, 2, MPI_COMM_WORLD);
+                }
             }
+            t[tr] = (MPI_Wtime() - t0) / (2.0 * reps);
         }
-        double t = (MPI_Wtime() - t0) / (2.0 * reps);
         if (rank == 0) {
-            printf("%12ld %14.3f %12.3f\n", m, 1e6 * t, m / t / 1e9);
+            qsort(t, trials, sizeof(double), cmp_dbl);
+            double tmin = t[0];
+            double tmed = trials % 2 ? t[trials / 2] : 0.5 * (t[trials / 2 - 1] + t[trials / 2]);
+            printf("%12ld %12.3f %12.3f %10.3f %10.3f\n", m, 1e6 * tmin, 1e6 * tmed,
+                   m / tmin / 1e9, m / tmed / 1e9);
             if (fp) {
-                const char *job = getenv("SLURM_JOB_ID");
-                fprintf(fp, "%s,%s,%s,%d,%s,%d,%ld,%.6e,%.4f\n", tag, job ? job : "-", host, cpu,
-                        peer_host, peer_cpu, m, t, m / t / 1e9);
+                const char *job = getenv("SLURM_JOB_ID"), *tls = getenv("UCX_TLS");
+                fprintf(fp, "%s,%s,%s,%s,%d,%s,%d,%ld,%d,%d,%.6e,%.6e,%.4f,%.4f\n", tag,
+                        tls ? tls : "-", job ? job : "-", host, cpu, peer_host, peer_cpu, m,
+                        reps, trials, tmin, tmed, m / tmin / 1e9, m / tmed / 1e9);
             }
         }
     }
+    free(t);
     if (fp) fclose(fp);
     free(buf);
     MPI_Finalize();

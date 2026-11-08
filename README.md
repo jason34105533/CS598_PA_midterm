@@ -63,7 +63,7 @@ The slab moves about 4.4x more data (roughly P^(2/3)/3) but sends 3x fewer messa
 - 1x1x48: each node owns 16 consecutive slabs, so the off-node faces are two N^2 planes.
 - 4x4x3: each node owns one 4x4x1 layer, so the off-node faces are also two N^2 planes.
 
-Inter-node traffic is identical, because the node-level decomposition is 1x1x3 in both cases. The extra surface of the slab is all intra-node (shared memory). This is why 4x4x3 is the "good" grid in C, D and E rather than 3x4x4 (same surface, but a z-layer of 12 ranks does not line up with a 16-rank node). With cyclic rank distribution, the same 1x1x48 sends every face off-node, which is the worst case. So decomposition quality has to be judged at each level: node, CCD, and core. The CCD level comes in naturally here.
+Inter-node traffic is identical, because the node-level decomposition is 1x1x3 in both cases. The extra surface of the slab is all intra-node. Whether intra-node is actually cheaper depends on the MPI transport (Section 8 and the measurement log): with the site default `UCX_TLS=rc`, intra-node messages also go through the InfiniBand HCA. This is why 4x4x3 is the "good" grid in C, D and E rather than 3x4x4 (same surface, but a z-layer of 12 ranks does not line up with a 16-rank node). With cyclic rank distribution, the same 1x1x48 sends every face off-node, which is the worst case. So decomposition quality has to be judged at each level: node, CCD, and core. The CCD level comes in naturally here.
 
 ## 4. Code design
 
@@ -89,8 +89,8 @@ One C + MPI program. Every variant is a command-line option.
 | A | Fixed P, sweep all factorizations including orientation (1x1xP vs Px1x1). Two problem sizes: large and small local volume. | How much does shape matter? Does the surface/alpha-beta model predict it? Is there a latency/bandwidth crossover? |
 | S | Strong scaling (fixed N, P = 1..48) and weak scaling (local volume about L^3), auto grid. | Parallel efficiency vs n/P; what n/P gives 80% efficiency (n_0.8)? Is the loss compute (cache) or communication? |
 | B | Prime P vs slightly fewer ranks with a good factorization (for example 47 vs 48), fixed global N. | Can using fewer cores be faster? |
-| C | Same grid, different placement: block vs cyclic across nodes; inside a node, one rank per CCD vs packed into few CCDs. | Does it matter where the extra surface lands (node / CCD / core)? |
-| D | blocking vs overlap vs overlap_test, on the best and worst decomposition from A. | How much communication can overlap hide? Does it really overlap (compare Waitall time with and without `MPI_Test`)? |
+| C | Same grid, different placement: block vs cyclic across nodes; inside a node, one rank per CCD vs packed into few CCDs. Each under `shm` and `rc` transport. | Does it matter where the extra surface lands (node / CCD / core)? Does the answer change when intra-node messages go through the NIC? |
+| D | blocking vs overlap vs overlap_test, on the best and worst decomposition from A, under `shm` and `rc`. | How much communication can overlap hide? Does it really overlap (compare Waitall time with and without `MPI_Test`)? How does intra-node rendezvous (HCA vs shared memory) change this? |
 | E | manual packing vs derived datatypes, broken down by face direction. | How expensive are non-contiguous faces? Does the answer depend on the decomposition? |
 | F (stretch) | Irregular decomposition for prime P. | Can it beat 1x1xP and beat dropping ranks? |
 
@@ -115,6 +115,23 @@ One C + MPI program. Every variant is a command-line option.
 - Baseline: 3 nodes x 16 ranks (one per CCD) = P = 48 (multiple nodes, undersubscribed). Experiment B uses P = 36..48, which includes the primes 37, 41, 43 and 47. For P < 48, Slurm spreads ranks evenly over the nodes (37 -> 13/12/12).
 - Problem sizes: N = 240 (local 60x60x80 at 4x4x3, about 2.3 MB per array, fits in L3, so communication matters more) and N = 960 (local 240x240x320, about 147 MB per array, memory-bound compute dominates). 240 and 960 are divisible by every factor of 48, so the A/C/D/E grids have even subdomains; uneven splits show up only in B and S.
 - Steps per run: about 1e9 cell updates per rank, clamped to 20..1000 (`steps_for` in `scripts/common.sh`).
+- MPI transport: the site environment sets `UCX_TLS=rc` (plus `OMPI_MCA_pml=ucx`, `UCX_RNDV_THRESH=8192`, `UCX_RNDV_SCHEME=put_zcopy`). With rc only, every message, including one between two cores of the same CCD, goes through the HCA. All experiments use `shm` (`UCX_TLS=sm,self,rc`: shared memory within a node, rc between nodes). pingpong, C and D run under both, as an extra dimension (`set_tls shm|rc` in `scripts/common.sh`; the `tls` CSV column records it).
+- Launch: every `srun` needs PMIx (`SLURM_MPI_TYPE=pmix`, set in `scripts/common.sh`); without it each rank starts as a singleton.
+
+## 8a. Measurement log
+
+**2026-11-08, job 12258647 (smoke, `UCX_TLS=rc`).** 98/98 correctness checks passed across 2 nodes. Placement check at P=48, 4x4x3, N=240: ranks 0-15 on ccc0391 at cpus 0,8,...,120 (one per CCD), and each node holds one z-layer. Off-node halo traffic is 1.84 MB per step, which matches two 240^2 planes in each direction. 20 steps: 0.87 ms per step, of which `wait` is 0.64 ms and compute 0.18 ms.
+
+**2026-11-08, job 12258648 (pingpong v0, `UCX_TLS=rc`).** Mean of one trial per size; mid sizes are noisy, so this version was replaced by min/median over 7 trials. Raw data: `results/pingpong_v0_rc.csv`.
+
+| Pair | 8 B (us) | 8 KB (us) | 1 MB (GB/s) | 16 MB (GB/s) |
+|---|---|---|---|---|
+| same CCD (cpu 0,1) | 1.37 | 10.5 | 7.7 | 8.0 |
+| other CCD (cpu 0,8) | 1.35 | 9.8 | 7.7 | 15.8 |
+| other socket (cpu 0,64) | 1.20 | 7.2 | 10.7 | 11.7 |
+| other node | 2.79 | 15.1 | 2.7 | 11.2 |
+
+Intra-node latency of 1.2-1.4 us, with bandwidth that saturates near the 100 Gb/s link rate, means that intra-node messages use the HCA (rc loopback), not shared memory. This is why the transport became an experiment dimension.
 
 ## 9. Code and usage
 
@@ -161,9 +178,12 @@ The program exits with status 1 if the correctness check fails.
 
 ### CSV columns
 
+- `tls`: value of `UCX_TLS` for the run (`sm,self,rc` or `rc`).
 - `t_step`: max over ranks of the time per step (seconds). This is the main metric.
 - `<phase>_avg`, `<phase>_max`: per-step time of each phase, averaged and maximized over ranks. Phases: `pack`, `post` (posting Isend/Irecv), `wait` (`Waitall`, or `Sendrecv` in blocking mode), `unpack`, `comp_int` (interior compute in overlap modes, the whole domain otherwise), `comp_bd` (boundary shell, overlap modes only).
 - `halo_bytes_max`, `msgs_max`: largest per-rank halo volume and neighbor count per step.
 - `bytes_offnode`, `bytes_samenode`, `bytes_sameccd`: total halo bytes per step summed over all ranks, classified by where the receiving neighbor runs (from `sched_getcpu`, so only meaningful when ranks are pinned).
 - `cells_min`, `cells_max`: smallest and largest subdomain (load imbalance when N is not divisible).
 - `rel_err`: max relative error against the exact discrete solution (PASS below 1e-10).
+
+`results/pingpong.csv`: `tag` (placement), `tls`, `bytes`, `reps` round trips per trial, `trials`, and the one-way time `t_min` / `t_med` (min and median over trials, seconds) with the matching `gbps_min` / `gbps_med`. Fit alpha and beta to `t_min` or `t_med`.
