@@ -76,6 +76,11 @@ int main(int argc, char **argv)
         }
     }
 
+    /* UCX_TLS is a comma list (sm,self,rc); store it with '+' so the CSV stays valid */
+    char tls_csv[128];
+    snprintf(tls_csv, sizeof tls_csv, "%s", getenv("UCX_TLS") ? getenv("UCX_TLS") : "-");
+    for (char *c = tls_csv; *c; c++) if (*c == ',') *c = '+';
+
     double *t = malloc(sizeof(double) * (trials > 0 ? trials : 1));
     for (long m = 8; m <= max_bytes; m *= 2) {
         int reps = (int)(((1L << 28) / m) > 2000 ? 2000 : ((1L << 28) / m));
@@ -101,9 +106,9 @@ int main(int argc, char **argv)
             printf("%12ld %12.3f %12.3f %10.3f %10.3f\n", m, 1e6 * tmin, 1e6 * tmed,
                    m / tmin / 1e9, m / tmed / 1e9);
             if (fp) {
-                const char *job = getenv("SLURM_JOB_ID"), *tls = getenv("UCX_TLS");
+                const char *job = getenv("SLURM_JOB_ID");
                 fprintf(fp, "%s,%s,%s,%s,%d,%s,%d,%ld,%d,%d,%.6e,%.6e,%.4f,%.4f\n", tag,
-                        tls ? tls : "-", job ? job : "-", host, cpu, peer_host, peer_cpu, m,
+                        tls_csv, job ? job : "-", host, cpu, peer_host, peer_cpu, m,
                         reps, trials, tmin, tmed, m / tmin / 1e9, m / tmed / 1e9);
             }
         }

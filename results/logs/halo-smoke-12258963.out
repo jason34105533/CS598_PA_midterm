@@ -1,0 +1,213 @@
+job 12258963 on ccc[0391-0393]  (Sun Nov  8 15:48:10 CST 2026)
+OMPI_MCA_btl=^vader,tcp,openib
+OMPI_MCA_btl_tcp_if_include=hsn0
+OMPI_MCA_hwloc_base_binding_policy=core
+OMPI_MCA_plm_slurm_args=--external-launcher
+OMPI_MCA_pml=ucx
+OMPI_MCA_ras_base_verbose=10
+OMPI_MCA_rmaps_base_mapping_policy=numa
+UCX_IB_GID_INDEX=3
+UCX_IB_TRAFFIC_CLASS=104
+UCX_MAX_RNDV_RAILS=1
+UCX_MEMTYPE_CACHE=n
+UCX_NET_DEVICES=mlx5_0:1
+UCX_RCACHE_ENABLE=y
+UCX_RNDV_SCHEME=put_zcopy
+UCX_RNDV_THRESH=8192
+UCX_SOCKADDR_TLS_PRIORITY=rdmacm
+UCX_TLS=sm,self,rc
+== CPU -> core/socket/NUMA/L3 (CCD = cores sharing one L3)
+Model name:                              AMD EPYC 7713 64-Core Processor
+Socket(s):                               2
+L3 cache:                                512 MiB (16 instances)
+NUMA node(s):                            2
+CPU CORE SOCKET NODE L1d:L1i:L2:L3
+  0    0      0    0 0:0:0:0
+  1    1      0    0 1:1:1:0
+  2    2      0    0 2:2:2:0
+  3    3      0    0 3:3:3:0
+  4    4      0    0 4:4:4:0
+  5    5      0    0 5:5:5:0
+  6    6      0    0 6:6:6:0
+  7    7      0    0 7:7:7:0
+  8    8      0    0 8:8:8:1
+  9    9      0    0 9:9:9:1
+ 10   10      0    0 10:10:10:1
+ 11   11      0    0 11:11:11:1
+ 12   12      0    0 12:12:12:1
+ 13   13      0    0 13:13:13:1
+ 14   14      0    0 14:14:14:1
+ 15   15      0    0 15:15:15:1
+ 16   16      0    0 16:16:16:2
+ 17   17      0    0 17:17:17:2
+ 18   18      0    0 18:18:18:2
+ 19   19      0    0 19:19:19:2
+ 20   20      0    0 20:20:20:2
+ 21   21      0    0 21:21:21:2
+ 22   22      0    0 22:22:22:2
+ 23   23      0    0 23:23:23:2
+ 24   24      0    0 24:24:24:3
+ 25   25      0    0 25:25:25:3
+ 26   26      0    0 26:26:26:3
+ 27   27      0    0 27:27:27:3
+ 28   28      0    0 28:28:28:3
+ 29   29      0    0 29:29:29:3
+ 30   30      0    0 30:30:30:3
+ 31   31      0    0 31:31:31:3
+ 32   32      0    0 32:32:32:4
+ 33   33      0    0 33:33:33:4
+ 34   34      0    0 34:34:34:4
+ 35   35      0    0 35:35:35:4
+ 36   36      0    0 36:36:36:4
+ 37   37      0    0 37:37:37:4
+ 38   38      0    0 38:38:38:4
+ 39   39      0    0 39:39:39:4
+ 40   40      0    0 40:40:40:5
+ 41   41      0    0 41:41:41:5
+ 42   42      0    0 42:42:42:5
+ 43   43      0    0 43:43:43:5
+ 44   44      0    0 44:44:44:5
+ 45   45      0    0 45:45:45:5
+ 46   46      0    0 46:46:46:5
+ 47   47      0    0 47:47:47:5
+ 48   48      0    0 48:48:48:6
+ 49   49      0    0 49:49:49:6
+ 50   50      0    0 50:50:50:6
+ 51   51      0    0 51:51:51:6
+ 52   52      0    0 52:52:52:6
+ 53   53      0    0 53:53:53:6
+ 54   54      0    0 54:54:54:6
+ 55   55      0    0 55:55:55:6
+ 56   56      0    0 56:56:56:7
+ 57   57      0    0 57:57:57:7
+ 58   58      0    0 58:58:58:7
+ 59   59      0    0 59:59:59:7
+ 60   60      0    0 60:60:60:7
+ 61   61      0    0 61:61:61:7
+ 62   62      0    0 62:62:62:7
+ 63   63      0    0 63:63:63:7
+ 64   64      1    1 64:64:64:8
+ 65   65      1    1 65:65:65:8
+ 66   66      1    1 66:66:66:8
+ 67   67      1    1 67:67:67:8
+ 68   68      1    1 68:68:68:8
+ 69   69      1    1 69:69:69:8
+ 70   70      1    1 70:70:70:8
+ 71   71      1    1 71:71:71:8
+ 72   72      1    1 72:72:72:9
+ 73   73      1    1 73:73:73:9
+ 74   74      1    1 74:74:74:9
+ 75   75      1    1 75:75:75:9
+ 76   76      1    1 76:76:76:9
+ 77   77      1    1 77:77:77:9
+ 78   78      1    1 78:78:78:9
+ 79   79      1    1 79:79:79:9
+ 80   80      1    1 80:80:80:10
+ 81   81      1    1 81:81:81:10
+ 82   82      1    1 82:82:82:10
+ 83   83      1    1 83:83:83:10
+ 84   84      1    1 84:84:84:10
+ 85   85      1    1 85:85:85:10
+ 86   86      1    1 86:86:86:10
+ 87   87      1    1 87:87:87:10
+ 88   88      1    1 88:88:88:11
+ 89   89      1    1 89:89:89:11
+ 90   90      1    1 90:90:90:11
+ 91   91      1    1 91:91:91:11
+ 92   92      1    1 92:92:92:11
+ 93   93      1    1 93:93:93:11
+ 94   94      1    1 94:94:94:11
+ 95   95      1    1 95:95:95:11
+ 96   96      1    1 96:96:96:12
+ 97   97      1    1 97:97:97:12
+ 98   98      1    1 98:98:98:12
+ 99   99      1    1 99:99:99:12
+100  100      1    1 100:100:100:12
+101  101      1    1 101:101:101:12
+102  102      1    1 102:102:102:12
+103  103      1    1 103:103:103:12
+104  104      1    1 104:104:104:13
+105  105      1    1 105:105:105:13
+106  106      1    1 106:106:106:13
+107  107      1    1 107:107:107:13
+108  108      1    1 108:108:108:13
+109  109      1    1 109:109:109:13
+110  110      1    1 110:110:110:13
+111  111      1    1 111:111:111:13
+112  112      1    1 112:112:112:14
+113  113      1    1 113:113:113:14
+114  114      1    1 114:114:114:14
+115  115      1    1 115:115:115:14
+116  116      1    1 116:116:116:14
+117  117      1    1 117:117:117:14
+118  118      1    1 118:118:118:14
+119  119      1    1 119:119:119:14
+120  120      1    1 120:120:120:15
+121  121      1    1 121:121:121:15
+122  122      1    1 122:122:122:15
+123  123      1    1 123:123:123:15
+124  124      1    1 124:124:124:15
+125  125      1    1 125:125:125:15
+126  126      1    1 126:126:126:15
+127  127      1    1 127:127:127:15
+== correctness sweep across 2 nodes
+smoke: 98/98 passed
+== placement check: P=48, one rank per CCD
+rank    0  coords (0,0,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 0
+rank    1  coords (1,0,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 8
+rank    2  coords (2,0,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 16
+rank    3  coords (3,0,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 24
+rank    4  coords (0,1,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 32
+rank    5  coords (1,1,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 40
+rank    6  coords (2,1,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 48
+rank    7  coords (3,1,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 56
+rank    8  coords (0,2,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 64
+rank    9  coords (1,2,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 72
+rank   10  coords (2,2,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 80
+rank   11  coords (3,2,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 88
+rank   12  coords (0,3,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 96
+rank   13  coords (1,3,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 104
+rank   14  coords (2,3,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 112
+rank   15  coords (3,3,0)  local 60x60x80  host ccc0391.campuscluster.illinois.edu  cpu 120
+rank   16  coords (0,0,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 0
+rank   17  coords (1,0,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 8
+rank   18  coords (2,0,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 16
+rank   19  coords (3,0,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 24
+rank   20  coords (0,1,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 32
+rank   21  coords (1,1,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 40
+rank   22  coords (2,1,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 48
+rank   23  coords (3,1,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 56
+rank   24  coords (0,2,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 64
+rank   25  coords (1,2,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 72
+rank   26  coords (2,2,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 80
+rank   27  coords (3,2,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 88
+rank   28  coords (0,3,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 96
+rank   29  coords (1,3,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 104
+rank   30  coords (2,3,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 112
+rank   31  coords (3,3,1)  local 60x60x80  host ccc0392.campuscluster.illinois.edu  cpu 120
+rank   32  coords (0,0,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 0
+rank   33  coords (1,0,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 8
+rank   34  coords (2,0,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 16
+rank   35  coords (3,0,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 24
+rank   36  coords (0,1,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 32
+rank   37  coords (1,1,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 40
+rank   38  coords (2,1,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 48
+rank   39  coords (3,1,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 56
+rank   40  coords (0,2,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 64
+rank   41  coords (1,2,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 72
+rank   42  coords (2,2,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 80
+rank   43  coords (3,2,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 88
+rank   44  coords (0,3,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 96
+rank   45  coords (1,3,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 104
+rank   46  coords (2,3,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 112
+rank   47  coords (3,3,2)  local 60x60x80  host ccc0393.campuscluster.illinois.edu  cpu 120
+halo3d  N=240  grid=4x4x3  P=48  nodes=3  mode=nonblocking  pack=manual  steps=20
+  time/step 0.957 ms   (avg | max over ranks, ms)
+    pack         0.0143 |    0.0186
+    post         0.0042 |    0.0072
+    wait         0.7276 |    0.7466
+    unpack       0.0163 |    0.0232
+    comp_int     0.1818 |    0.1991
+    comp_bd      0.0000 |    0.0000
+  halo bytes/step: max per rank 211200; total off-node 1843200, same-node 5529600, same-CCD 0
+  local cells min 288000 max 288000   rel_err 1.641e-15  PASS

@@ -490,8 +490,12 @@ int main(int argc, char **argv)
                     fprintf(fp, ",halo_bytes_max,msgs_max,bytes_offnode,bytes_samenode,bytes_sameccd,"
                                 "cells_min,cells_max,rel_err\n");
                 }
-                const char *job = getenv("SLURM_JOB_ID"), *tls = getenv("UCX_TLS");
-                fprintf(fp, "%s,%s,%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%.6e", o.tag, tls ? tls : "-", job ? job : "-",
+                const char *job = getenv("SLURM_JOB_ID");
+                /* UCX_TLS is a comma list (sm,self,rc); store it with '+' */
+                char tls[128];
+                snprintf(tls, sizeof tls, "%s", getenv("UCX_TLS") ? getenv("UCX_TLS") : "-");
+                for (char *c = tls; *c; c++) if (*c == ',') *c = '+';
+                fprintf(fp, "%s,%s,%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%.6e", o.tag, tls, job ? job : "-",
                         mode_name[o.mode], pack_name[o.pack], o.N, o.P[0], o.P[1], o.P[2], size_,
                         nodes, o.steps, tstep);
                 for (int p = 0; p < T_NUM; p++) fprintf(fp, ",%.6e,%.6e", tavg[p], tmax[p]);

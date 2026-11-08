@@ -222,7 +222,7 @@ The program exits with status 1 if the correctness check fails.
 
 ### CSV columns
 
-- `tls`: value of `UCX_TLS` for the run (`sm,self,rc` or `rc`).
+- `tls`: value of `UCX_TLS` for the run, with commas written as `+` (`sm+self+rc` or `rc`).
 - `t_step`: max over ranks of the time per step (seconds). This is the main metric.
 - `<phase>_avg`, `<phase>_max`: per-step time of each phase, averaged and maximized over ranks. Phases: `pack`, `post` (posting Isend/Irecv), `wait` (`Waitall`, or `Sendrecv` in blocking mode), `unpack`, `comp_int` (interior compute in overlap modes, the whole domain otherwise), `comp_bd` (boundary shell, overlap modes only).
 - `halo_bytes_max`, `msgs_max`: largest per-rank halo volume and neighbor count per step.
