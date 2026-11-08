@@ -5,6 +5,9 @@ module load gcc openmpi 2>/dev/null
 command -v mpicc >/dev/null || { echo "mpicc not found: fix module names in scripts/common.sh"; exit 1; }
 [ -x bin/halo3d ] || { echo "bin/halo3d missing: run 'make ARCH=-march=znver3' on the login node"; exit 1; }
 
+# Without this, srun starts every rank as an MPI singleton (size 1).
+export SLURM_MPI_TYPE=pmix
+
 mkdir -p results/logs
 REPS=${REPS:-3}
 
