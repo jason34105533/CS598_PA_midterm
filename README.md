@@ -247,13 +247,22 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - Strided x-faces are the expensive case either way: with manual packing, pack + unpack is 32 ms of the 59 ms step at N = 960, more than the communication itself.
 - Against the predictions: z-faces gain from datatypes only at large N; x-faces are expensive as expected, but datatypes are not slower than manual packing there.
 
+**2026-11-08, job 12260302 (S2, socket placement, `shm`).** 63 runs, all PASS. Plot: `figs/S2_socket.png`. Efficiency, SPREAD (socket 0 first) / ALT (alternate sockets):
+
+| | P = 4 | 6 | 8 | 12 | 16 |
+|---|---|---|---|---|---|
+| strong N = 480 | 0.75 / 0.78 | 0.59 / 0.70 | 0.46 / 0.65 | 0.42 / 0.51 | 0.41 / 0.41 |
+| strong N = 960 | 1.01 / 1.12 | 0.78 / 1.06 | 0.60 / 0.90 | 0.57 / 0.73 | 0.58 / 0.58 |
+| weak 240^3 | 0.77 / 0.84 | 0.59 / 0.74 | 0.46 / 0.66 | 0.43 / 0.51 | 0.40 / 0.39 |
+
+Splitting the same ranks over two sockets raises efficiency at P = 6-12 by up to 0.3, and the curves meet at P = 16, where both maps use the same cores. This confirms that the drop seen in S at P = 6-8 is memory-bandwidth saturation of one socket. Even at P = 16 (8 ranks per socket, one per CCD), efficiency is only about 0.4-0.6, so the memory bandwidth of a full socket limits these stencil sizes.
+
 ## 8b. Status and next steps (update as things finish)
 
-- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405), E (12259406). Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`, `figs/E_packing.png`, `figs/A_model.png`.
-- Queued: S2 12260302.
+- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405), E (12259406), S2 (12260302). All jobs finished. Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`, `figs/E_packing.png`, `figs/A_model.png`, `figs/S2_socket.png`.
 - S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
 - After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
-- Remaining analysis: S2 vs S comparison plot.
+- Remaining: written document and slides (presentation Nov 11/13).
 - Decisions made: P = 48 on 3 nodes; N = 240/480/960 in A; `shm` = intra-node eager; pingpong, C and D under both `shm` and `rc`; keep mode name `nonblocking` (the no-overlap control).
 
 ## 9. Code and usage
