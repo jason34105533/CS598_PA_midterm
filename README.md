@@ -247,7 +247,7 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - Strided x-faces are the expensive case either way: with manual packing, pack + unpack is 32 ms of the 59 ms step at N = 960, more than the communication itself.
 - Against the predictions: z-faces gain from datatypes only at large N; x-faces are expensive as expected, but datatypes are not slower than manual packing there.
 
-**2026-11-08, job 12260302 (S2, socket placement, `shm`).** 63 runs, all PASS. Plot: `figs/S2_socket.png`. Efficiency, SPREAD (socket 0 first) / ALT (alternate sockets):
+**2026-11-08, job 12260302 (S2, socket placement, `shm`).** 63 runs, all PASS. Plot: `figs/S2_socket.png`, `figs/F_irregular.png`. Efficiency, SPREAD (socket 0 first) / ALT (alternate sockets):
 
 | | P = 4 | 6 | 8 | 12 | 16 |
 |---|---|---|---|---|---|
@@ -257,12 +257,18 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 
 Splitting the same ranks over two sockets raises efficiency at P = 6-12 by up to 0.3, and the curves meet at P = 16, where both maps use the same cores. This confirms that the drop seen in S at P = 6-8 is memory-bandwidth saturation of one socket. Even at P = 16 (8 ranks per socket, one per CCD), efficiency is only about 0.4-0.6, so the memory bandwidth of a full socket limits these stencil sizes.
 
+**2026-11-08, job 12262042 (F, layered irregular decomposition, `shm`).** 84 runs, all PASS. Plot: `figs/F_irregular.png`.
+- N = 960: layered beats 1x1xP by 1.45-1.52x for every prime, and ties with dropping to the next non-prime (47 layered 29.9 ms vs 45 ranks 30.1 ms; 43: 32.6 vs 42: 32.5). Layered 47 is about as fast as the regular 48.
+- N = 240 (communication-bound): layered beats 1x1xP for 41, 43 and 47 (2.1x at 47; no gain at 37), but the regular grid with fewer ranks is faster in every case (47 layered 0.50 ms vs 45 ranks 0.38 ms). Layered ranks have 8-10 neighbors instead of 6.
+- Sanity check, 48 = 4x4,4x4,4x4 in `halo3d_irr` vs 3x4x4 in `halo3d`: equal at N = 960 (29.4 vs 29.2 ms), 15% slower at N = 240 (0.43 vs 0.38 ms).
+- So for a prime P, an irregular decomposition recovers what the bad factorization loses when compute dominates. When communication dominates, dropping to a P with a good factorization is the simpler and faster choice.
+
 ## 8b. Status and next steps (update as things finish)
 
-- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405), E (12259406), S2 (12260302). All jobs finished. Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`, `figs/E_packing.png`, `figs/A_model.png`, `figs/S2_socket.png`.
+- Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405), E (12259406), S2 (12260302), F (12262042). All jobs finished. Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`, `figs/E_packing.png`, `figs/A_model.png`, `figs/S2_socket.png`.
 - S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
 - After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
-- F (`scripts/F_irregular.sbatch`, `bin/halo3d_irr`): layered decomposition for prime P (47 = 4x4 + 4x4 + 3x5 layers in z, layer thickness proportional to rank count; 41 = 4x4,4x4,3x3; 43 = 4x4,3x5,3x4; 37 = 4x4,3x4,3x3). Compared in the same job with 1x1xP and fewer-rank regular grids (`results/F_ref.csv`). Local tests pass, including 47 ranks with up to 9 neighbors.
+- F (`scripts/F_irregular.sbatch`, `bin/halo3d_irr`): layered decomposition for prime P (47 = 4x4 + 4x4 + 3x5 layers in z, layer thickness proportional to rank count; 41 = 4x4,4x4,3x3; 43 = 4x4,3x5,3x4; 37 = 4x4,3x4,3x3). Compared in the same job with 1x1xP and fewer-rank regular grids (`results/F_ref.csv`). Local tests pass, including 47 ranks with up to 9 neighbors. Done.
 - Remaining: written document and slides (presentation Nov 11/13).
 - Decisions made: P = 48 on 3 nodes; N = 240/480/960 in A; `shm` = intra-node eager; pingpong, C and D under both `shm` and `rc`; keep mode name `nonblocking` (the no-overlap control).
 
