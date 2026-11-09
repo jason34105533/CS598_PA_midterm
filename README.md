@@ -262,6 +262,7 @@ Splitting the same ranks over two sockets raises efficiency at P = 6-12 by up to
 - Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405), E (12259406), S2 (12260302). All jobs finished. Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`, `figs/E_packing.png`, `figs/A_model.png`, `figs/S2_socket.png`.
 - S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
 - After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
+- F (`scripts/F_irregular.sbatch`, `bin/halo3d_irr`): layered decomposition for prime P (47 = 4x4 + 4x4 + 3x5 layers in z, layer thickness proportional to rank count; 41 = 4x4,4x4,3x3; 43 = 4x4,3x5,3x4; 37 = 4x4,3x4,3x3). Compared in the same job with 1x1xP and fewer-rank regular grids (`results/F_ref.csv`). Local tests pass, including 47 ranks with up to 9 neighbors.
 - Remaining: written document and slides (presentation Nov 11/13).
 - Decisions made: P = 48 on 3 nodes; N = 240/480/960 in A; `shm` = intra-node eager; pingpong, C and D under both `shm` and `rc`; keep mode name `nonblocking` (the no-overlap control).
 
@@ -270,6 +271,7 @@ Splitting the same ranks over two sockets raises efficiency at P = 6-12 by up to
 ```
 src/halo3d.c          the benchmark (one file)
 src/pingpong.c        alpha-beta measurement between two ranks
+src/halo3d_irr.c      halo3d on a layered irregular decomposition (experiment F)
 scripts/common.sh     modules, CPU maps, helpers (sourced by every job)
 scripts/smoke.sh      correctness sweep (local, or inside an allocation)
 scripts/*.sbatch      smoke test, pingpong, experiments S, A-E
