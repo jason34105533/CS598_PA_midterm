@@ -50,7 +50,7 @@ Gain vs N under rc (`figs/D2_gain.png`): 4x4x3 2.5x / 2.1x / 1.0x at N = 240 / 4
 
 The peel order (boundary first, send, then interior, the idea from class) gives the same times as `overlap_test`: both hide the same exchange behind the same interior compute.
 
-Conclusion: overlap pays off when (1) hardware can move data in the background (HCA DMA under rc), (2) MPI is driven during compute (`MPI_Testall`), and (3) communication and compute are of similar size. The one case in our data that meets all three is 2.5x faster.
+Conclusion: overlap pays off when (1) hardware can move data in the background (HCA DMA under rc), (2) MPI is driven during compute (`MPI_Testall`), and (3) communication and compute are of similar size. The cases that meet all three (rc, 4x4x3, N = 240 and 480) are 2.1-2.5x faster.
 
 ## Concurrency explains the A model's bandwidth
 
