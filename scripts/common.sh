@@ -54,7 +54,7 @@ factor3() {
     done
 }
 
-# run NTASKS CPU_MAP DISTRIBUTION halo3d-args...
+# run NTASKS CPU_MAP DISTRIBUTION halo3d-args...   (binary: $HALO_BIN, default bin/halo3d)
 # Uses ceil(NTASKS/16) nodes. --whole gives the step every CPU of its nodes, so
 # map_cpu can pick any core even when NTASKS < 16 per node. --whole is ignored
 # when -c is set, which is why the job headers do not use --cpus-per-task.
@@ -63,7 +63,7 @@ run() {
     local n=$1 map=$2 dist=$3
     shift 3
     srun -n "$n" -N $(((n + 15) / 16)) --ntasks-per-node=16 --whole \
-        --distribution="$dist" --cpu-bind=map_cpu:"$map" bin/halo3d "$@"
+        --distribution="$dist" --cpu-bind=map_cpu:"$map" "${HALO_BIN:-bin/halo3d}" "$@"
 }
 
 echo "job $SLURM_JOB_ID on $SLURM_JOB_NODELIST  ($(date))"
