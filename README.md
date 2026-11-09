@@ -55,7 +55,7 @@ The slab moves about 4.4x more data (roughly P^(2/3)/3) but sends 3x fewer messa
 **Shape also changes memory behavior, not only the surface area.** Data is stored with x as the unit-stride direction, so:
 
 - Splitting along x shortens inner loops, which hurts vectorization and prefetch. It also makes x-faces strided, which makes packing expensive.
-- Splitting only along z (1x1xP) makes z-faces contiguous, so no packing is needed. However, each xy-plane is large, so the 3 planes the stencil needs may not fit in L2.
+- Splitting only along z (1x1xP) makes z-faces nearly contiguous (rows of nx separated by the 2 ghost cells), so packing is cheap. However, each xy-plane is large, so the 3 planes the stencil needs may not fit in L2.
 - So 1x1x48 and 48x1x1 have the same surface, but performance may differ. Orientation is an experiment in its own right.
 
 **Hierarchy: where does the extra surface land?** Take 3 nodes with 16 ranks per node, ranks filled into nodes in order, and x varying fastest in rank numbering:
@@ -129,7 +129,7 @@ Common setup: 3 nodes x 16 ranks (one per CCD), `shm` transport unless stated, 3
 - The cost of overlap is the separate boundary pass (`comp_bd`) and worse cache use. Check whether it eats the gain.
 - `shm` vs `rc`: intra-node rendezvous uses shared memory in one case and HCA RDMA in the other, which may depend on progress differently.
 
-**E (packing).** Grids 48x1x1 (x-faces only, fully strided, worst case), 1x48x1 (y-faces, one contiguous row block per z-plane), 1x1x48 (z-faces, contiguous), 4x4x3 (mixed). Manual vs datatype.
+**E (packing).** Grids 48x1x1 (x-faces only, fully strided, worst case), 1x48x1 (y-faces, one row of nx per z-plane, rows a plane apart), 1x1x48 (z-faces, rows of nx separated only by the 2 ghost cells), 4x4x3 (mixed). Manual vs datatype.
 - z-faces: the datatype path might avoid the copy (zero-copy) and beat manual packing.
 - x-faces: expensive either way, and the datatype path may be slower than manual packing.
 - Plot pack/unpack time against wait time, by face direction.
@@ -229,6 +229,7 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - The overlap gain is mostly eaten by the separate boundary pass: `comp_bd` costs 4-5 ms at N = 960 (about 18% of the compute for 4x4x3, for about 2% of the cells). Net gain in `t_step`: none for 4x4x3, 15% for rc 1x1x48 (50.4 -> 42.8 ms).
 - N = 240: under `rc`, 4x4x3 gains a lot (0.84 -> 0.46 ms with `overlap`, 0.33 ms with `overlap_test`, 2.5x). Under `shm` (intra-node eager) the modes are close. 1x1x48 does not gain in any mode, because its communication (about 1 ms) is much longer than the 0.1-0.2 ms of interior compute it could hide behind.
 - Under `shm`, `overlap_test` at N = 960 helps 4x4x3 `wait` (5.1 -> 2.5 ms) but not 1x1x48 (12.9 -> 12.1 ms).
+- Ceiling: overlap can hide at most min(`wait`, compute) of the `nonblocking` step. At N = 960 that is 5 ms of 29 ms for 4x4x3 (17%), and the boundary pass costs about as much. Only rc 1x1x48 has room (22 ms of `wait`) and it gains 7.6 ms. Under `shm` at N = 240, `wait` is 0.2-0.4 ms, so there is little to hide. Overlap pays off only when communication and compute are of similar size and intra-node messages use rendezvous (rc N = 240 4x4x3: 0.84 -> 0.33 ms).
 
 **A model (`analysis/model_A.py`, plot `figs/A_model.png`).** `t_step = a + b*halo + c*log2(Px)`, fitted per N over the 45 grids:
 
@@ -242,9 +243,10 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - Off-node bytes per node hardly change across the 45 grids (0.61-0.81 MB at N = 240) while intra-node bytes vary 8x. With block placement, inter-node traffic is set by the node-level decomposition (Section 3), not by the rank grid.
 
 **2026-11-08, job 12259406 (E, packing, `shm`).** 48 runs, all PASS. Plot: `figs/E_packing.png`.
-- N = 240: derived datatypes are equal or slower for every face direction (y-faces +21%, z-faces +18%, 4x4x3 +5%, x-faces equal). Even fully contiguous z-faces do not gain at this size.
-- N = 960: datatypes are faster for the slabs (y-faces -13%, z-faces -11%, x-faces -3%) and equal for 4x4x3. Manual packing of a contiguous z-face still copies about 7.6 ms per step, which the datatype path avoids.
+- N = 240: derived datatypes are equal or slower for every face direction (y-faces +21%, z-faces +18%, 4x4x3 +5%, x-faces equal). Even the nearly contiguous z-faces do not gain at this size.
+- N = 960: datatypes are faster for the slabs (y-faces -13%, z-faces -11%, x-faces -3%) and equal for 4x4x3. Manual packing of a z-face still copies about 7.6 ms per step, which the datatype path avoids.
 - Strided x-faces are the expensive case either way: with manual packing, pack + unpack is 32 ms of the 59 ms step at N = 960, more than the communication itself.
+- The strided x-face copy is the mechanism behind the x-split term in the A model: 48x1x1 spends 32 ms per step in pack + unpack against 7.6 ms for 1x1x48.
 - Against the predictions: z-faces gain from datatypes only at large N; x-faces are expensive as expected, but datatypes are not slower than manual packing there.
 
 **2026-11-08, job 12260302 (S2, socket placement, `shm`).** 63 runs, all PASS. Plot: `figs/S2_socket.png`, `figs/F_irregular.png`. Efficiency, SPREAD (socket 0 first) / ALT (alternate sockets):
