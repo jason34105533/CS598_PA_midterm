@@ -230,6 +230,8 @@ Under `shm` the cost rises at each level (CCD, socket, node); `rc` makes all int
 - N = 240: under `rc`, 4x4x3 gains a lot (0.84 -> 0.46 ms with `overlap`, 0.33 ms with `overlap_test`, 2.5x). Under `shm` (intra-node eager) the modes are close. 1x1x48 does not gain in any mode, because its communication (about 1 ms) is much longer than the 0.1-0.2 ms of interior compute it could hide behind.
 - Under `shm`, `overlap_test` at N = 960 helps 4x4x3 `wait` (5.1 -> 2.5 ms) but not 1x1x48 (12.9 -> 12.1 ms).
 - Ceiling: overlap can hide at most min(`wait`, compute) of the `nonblocking` step. At N = 960 that is 5 ms of 29 ms for 4x4x3 (17%), and the boundary pass costs about as much. Only rc 1x1x48 has room (22 ms of `wait`) and it gains 7.6 ms. Under `shm` at N = 240, `wait` is 0.2-0.4 ms, so there is little to hide. Overlap pays off only when communication and compute are of similar size and intra-node messages use rendezvous (rc N = 240 4x4x3: 0.84 -> 0.33 ms).
+- Why `shm` gains nothing: an eager shared-memory transfer is a copy done by the CPU itself, inside `MPI_Isend` (`post` rises from 0.002 ms under rc to 0.05-0.2 ms at N = 240 and 0.4-1.2 ms at N = 960) and in the receiver's progress. No hardware moves the data in the background, so there is nothing to overlap. Under rc the HCA does the transfer by DMA, which is why rc is where overlap works.
+- Part of `wait` is waiting for slower neighbors, which overlap cannot hide: `shm` N = 960 4x4x3 `wait` is 3.3 ms on average and 5.1 ms on the slowest rank.
 
 **A model (`analysis/model_A.py`, plot `figs/A_model.png`).** `t_step = a + b*halo + c*log2(Px)`, fitted per N over the 45 grids:
 
