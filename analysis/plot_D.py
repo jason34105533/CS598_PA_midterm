@@ -1,4 +1,5 @@
 """Experiment D: exchange modes (blocking / nonblocking / overlap / overlap_test) x transport.
+Reads results/D.csv (N = 240, 960) and the N = 480 rows of results/D2.csv.
 
 usage: PYTHONPATH=analysis python3 analysis/plot_D.py   (writes figs/D_overlap.png)
 """
@@ -22,7 +23,9 @@ METRICS = [("t_step", "time per step (ms)"), ("wait_max", "Waitall / Sendrecv ti
 
 def main():
     runs = collections.defaultdict(list)
-    for r in csv.DictReader(open("results/D.csv")):
+    rows = list(csv.DictReader(open("results/D.csv")))
+    rows += [r for r in csv.DictReader(open("results/D2.csv")) if r["mode"] in MODES]
+    for r in rows:
         grid = "x".join(r[c] for c in ("Px", "Py", "Pz"))
         runs[(int(r["N"]), grid, r["tls"], r["mode"])].append(r)
     Ns = sorted({k[0] for k in runs})

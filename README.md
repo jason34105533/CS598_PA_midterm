@@ -267,13 +267,34 @@ Splitting the same ranks over two sockets raises efficiency at P = 6-12 by up to
 - Sanity check, 48 = 4x4,4x4,4x4 in `halo3d_irr` vs 3x4x4 in `halo3d`: equal at N = 960 (29.4 vs 29.2 ms), 15% slower at N = 240 (0.43 vs 0.38 ms).
 - So for a prime P, an irregular decomposition recovers what the bad factorization loses when compute dominates. When communication dominates, dropping to a P with a good factorization is the simpler and faster choice.
 
+**2026-11-08, job 12268045 (D2, `bin/halo3d_ext`).** 120 runs, all PASS. Plots: `figs/D_overlap.png` (now with N = 480), `figs/D2_gain.png`.
+- Overlap gain (nonblocking / overlap_test) vs N under rc: 4x4x3 2.5x, 2.1x, 1.0x at N = 240, 480, 960 (N = 480: 4.22 -> 2.04 ms, `wait` 2.59 -> 0.22 ms); 1x1x48 1.03x, 1.32x, 1.18x. Under `shm` there is no gain at any N (0.94-1.03x).
+- `peel` (compute the boundary shell first, pack and send it, then the interior) gives the same times as `overlap_test` everywhere, with manual or indexed packing. Both hide the same exchange behind the same interior compute, so the order does not matter here. One exception: `shm` N = 240 1x1x48, where `peel` is 1.6x slower (1.06 vs 0.66 ms).
+
+**2026-11-08, job 12268047 (E2, `bin/halo3d_ext`).** 72 runs, all PASS. Plot: `figs/E2_indexed.png`.
+- The manual baseline reproduces E within 1-3%.
+- Packing through index lists (`buf[m] = u[idx[m]]`) costs the same as the structured loops at N = 960 (within 1-3%), but is 1.6x slower for the y- and z-slabs at N = 240 (1.15 vs 0.70 ms).
+- The same index list as an MPI indexed-block type performs like the subarray type (N = 960: 57.1 vs 57.4 ms for x-faces, 32.1 vs 32.3 for y-faces).
+- The strided x-faces cost the same with all four methods (57-61 ms at N = 960): the addressing scheme does not change which cache lines are touched. What index lists buy is generality (one code path for any face or any irregular decomposition) at no cost for large faces.
+
+**2026-11-08, job 12268048 (pingpong_multi, `shm`).** 18 configurations. Plot: `figs/pingpong_multi.png`. Exchange pattern, 1 MB, GB/s per pair in each direction:
+
+| Level | 1 pair | many pairs | aggregate |
+|---|---|---|---|
+| other node | 2.4 | 0.76 (16 pairs) | 12.2 GB/s per node, the 100 Gb/s link |
+| same node, other socket | 2.0 | 1.5 (8 pairs) | 12.0 |
+| same socket, other CCD | 3.7 | 2.9 (4 pairs) | 11.7 |
+
+- With 16 ranks per node exchanging off-node at once, each gets 0.76 GB/s, inside the 0.65-1.3 GB/s per rank fitted in the A model. The effective bandwidth of the model is the node's link shared by its 16 ranks.
+- 8 B latency does not change with the number of pairs (2.7-2.8 us between nodes).
+
 ## 8b. Status and next steps (update as things finish)
 
 - Done: smoke, pingpong, S (12259398), A (12259401), B (12259403), C (12259404), D (12259405), E (12259406), S2 (12260302), F (12262042). All jobs finished. Plots: `figs/S_*.png`, `figs/A_shape.png`, `figs/B_badP.png`, `figs/C_placement.png`, `figs/D_overlap.png`, `figs/E_packing.png`, `figs/A_model.png`, `figs/S2_socket.png`.
 - S2 (`scripts/S2_socket.sbatch`): same as S for P <= 16 with the `ALT` map (ranks alternating between sockets). Compare with S to show socket memory-bandwidth contention (tags `strong_alt`, `weak240_alt` in `results/S.csv`).
 - After each job: summarize the trend here (8a), make the plot in `analysis/`, commit and push.
 - F (`scripts/F_irregular.sbatch`, `bin/halo3d_irr`): layered decomposition for prime P (47 = 4x4 + 4x4 + 3x5 layers in z, layer thickness proportional to rank count; 41 = 4x4,4x4,3x3; 43 = 4x4,3x5,3x4; 37 = 4x4,3x4,3x3). Compared in the same job with 1x1xP and fewer-rank regular grids (`results/F_ref.csv`). Local tests pass, including 47 ranks with up to 9 neighbors. Done.
-- Submitted 2026-11-08: D2 (12268045, `scripts/D2_overlap_ext.sbatch`: D at N = 480, and the `peel` mode with manual and indexed packing), E2 (12268047, `scripts/E2_packing_ext.sbatch`: `indexed` and `indexed_dt` packing), pingpong_multi (12268048: bandwidth per pair with 1-16 pairs active at once). Code: `src/halo3d_ext.c` (halo3d.c plus indexed packing and `peel`; halo3d.c is unchanged), `src/pingpong_multi.c`. Local check `scripts/smoke_ext.sh`: 219/219 PASS.
+- Done 2026-11-08: D2 (12268045, `scripts/D2_overlap_ext.sbatch`: D at N = 480, and the `peel` mode with manual and indexed packing), E2 (12268047, `scripts/E2_packing_ext.sbatch`: `indexed` and `indexed_dt` packing), pingpong_multi (12268048: bandwidth per pair with 1-16 pairs active at once). Code: `src/halo3d_ext.c` (halo3d.c plus indexed packing and `peel`; halo3d.c is unchanged), `src/pingpong_multi.c`. Local check `scripts/smoke_ext.sh`: 219/219 PASS.
 - Remaining: written document and slides (presentation Nov 11/13).
 - Decisions made: P = 48 on 3 nodes; N = 240/480/960 in A; `shm` = intra-node eager; pingpong, C and D under both `shm` and `rc`; keep mode name `nonblocking` (the no-overlap control).
 

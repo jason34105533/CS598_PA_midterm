@@ -37,6 +37,7 @@ Overlap can save at most min(communication, compute), so it only pays when the t
 | N = 960, 4x4x3 | about 24 ms | about 5 ms | at most 17% of the step (compute is too **large**) |
 | N = 240, 1x1x48, rc | 0.18 ms | 1 ms | at most 0.18 ms (here compute is too small) |
 | N = 240, 4x4x3, rc | 0.18 ms | 0.6 ms | closest to balanced; **actually 2.5x faster** (0.84 → 0.33 ms) |
+| N = 480, 4x4x3, rc | 1.65 ms | 2.6 ms | **2.1x faster** (4.22 → 2.04 ms); `wait` 2.6 → 0.2 ms |
 
 Why the gain is small elsewhere:
 
@@ -45,7 +46,20 @@ Why the gain is small elsewhere:
 3. **The separate boundary pass is expensive.** About 2% of the cells cost about 4 ms at N = 960 (strided x-faces, data read again), which eats the hidden time.
 4. **Part of `wait` is waiting for slower neighbors.** shm N = 960 4x4x3: 3.3 ms on average, 5.1 ms on the slowest rank. Overlap cannot hide that.
 
+Gain vs N under rc (`figs/D2_gain.png`): 4x4x3 2.5x / 2.1x / 1.0x at N = 240 / 480 / 960; 1x1x48 1.03x / 1.32x / 1.18x. Under shm no gain at any N.
+
+The peel order (boundary first, send, then interior, the idea from class) gives the same times as `overlap_test`: both hide the same exchange behind the same interior compute.
+
 Conclusion: overlap pays off when (1) hardware can move data in the background (HCA DMA under rc), (2) MPI is driven during compute (`MPI_Testall`), and (3) communication and compute are of similar size. The one case in our data that meets all three is 2.5x faster.
+
+## Concurrency explains the A model's bandwidth
+
+- Single-pair pingpong between nodes gives 2.4-2.7 GB/s. With 16 ranks per node exchanging off-node at once, each gets 0.76 GB/s, and together 12 GB/s, the 100 Gb/s link.
+- The A model fitted 0.65-1.3 GB/s per rank. So its effective bandwidth is the node's link shared by 16 ranks: a two-point alpha-beta model must divide beta's bandwidth by the ranks sharing the link.
+
+## Index lists (indirect addressing)
+
+- Packing through precomputed index lists costs the same as structured loops for large faces, and as an MPI indexed type it performs like a subarray type. It does not make strided x-faces cheaper (the same cache lines are touched), but it gives one code path for every face and for irregular decompositions at no cost at large N.
 
 ## C: why the baseline is undersubscribed
 
